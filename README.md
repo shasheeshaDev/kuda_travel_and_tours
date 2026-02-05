@@ -1,115 +1,163 @@
-# Next.js Monorepo with Sanity CMS
+# Pekka
 
-A modern, full-stack monorepo template built with Next.js App Router, Sanity CMS, Shadcn UI, and TurboRepo.
+A modern Next.js + Sanity CMS website with a dynamic page builder and modular block system.
 
-![Easiest way to build a webpage](https://raw.githubusercontent.com/robotostudio/turbo-start-sanity/main/turbo-start-sanity-og.png)
+## Tech Stack
+
+[![Next.js][next-js]][next-js-url] [![Sanity][sanity]][sanity-url] [![React][react]][react-url] [![Typescript][typescript]][typescript-url] [![Tailwind][tailwind]][tailwind-url]
 
 ## Features
 
-### Monorepo Structure
+- **Page Builder** - Dynamic page composition with modular blocks
+- **Global Banner** - Configurable promotional banner with image and content
+- **Content Blocks** - Multiple content layout variations (content-1 to content-4)
+- **Card Blocks** - Flexible card components (card-1 to card-5)
+- **Banner Blocks** - Hero and promotional banners (banner-1, banner-2)
+- **Testimonial Slider** - Swiper-based testimonial carousel with fade effect
+- **Collection Block** - Display collections with column builder content
+- **Video Block** - Video embedding support
+- **Form Block** - Contact forms with Resend integration
+- **Map Block** - Location/map display
+- **Dynamic Navigation** - Header and footer management
+- **SEO Meta** - Full meta tag configuration per page
+- **OG Image Generator** - Automatic Open Graph image generation
+- **Type Safety** - Full TypeScript with Sanity TypeGen
 
-- Apps: web (Next.js frontend) and studio (Sanity Studio)
-- Shared packages: UI components, TypeScript config, ESLint config
-- Turborepo for build orchestration and caching
+## Project Structure
 
-### Frontend (Web)
+```
+pekka/
+├── frontend/                 # Next.js application
+│   ├── app/                  # App router pages
+│   ├── components/           # React components
+│   │   ├── blocks/           # Page builder blocks
+│   │   ├── global/           # Global components (header, footer, banner)
+│   │   ├── shared/           # Shared/reusable components
+│   │   └── ui/               # UI primitives
+│   ├── sanity/               # Sanity configuration
+│   │   ├── lib/              # Sanity utilities
+│   │   └── queries/          # GROQ queries
+│   └── style/                # Global styles
+│
+├── studio/                   # Sanity Studio
+│   ├── schemas/              # Content schemas
+│   │   ├── blocks/           # Block schemas
+│   │   ├── common/           # Shared schema types
+│   │   └── documents/        # Document schemas
+│   └── components/           # Studio customizations
+│
+└── package.json              # Root workspace config
+```
 
-- Next.js App Router with TypeScript
-- Shadcn UI components with Tailwind CSS
-- Server Components and Server Actions
-- SEO optimization with metadata
-- Blog system with rich text editor
-- Table of contents generation
-- Responsive layouts
+## Available Blocks
 
-### Content Management (Studio)
+| Block Type | Description |
+|------------|-------------|
+| `banner-1` | Hero banner with background image |
+| `banner-2` | Secondary banner variant |
+| `card-1` to `card-5` | Various card layout options |
+| `content-1` to `content-4` | Content section layouts |
+| `collection-1` | Collection display with alternating layout |
+| `testimonial-1` | Testimonial slider with fade effect |
+| `video-1` | Video embed block |
+| `form-1` | Contact form |
+| `map-1` | Map/location block |
 
-- Sanity Studio v3
-- Custom document types (Blog, FAQ, Pages)
-- Visual editing integration
-- Structured content with schemas
-- Live preview capabilities
-- Asset management
+## Document Types
+
+- **Page** - Dynamic pages with block builder
+- **Collection** - Collection items with name, location, image, and content
+- **Post** - Blog posts with author and categories
+- **Testimonial** - Customer testimonials
+- **Settings** - Global site settings
+- **Header** - Navigation configuration
+- **Footer** - Footer configuration
 
 ## Getting Started
 
-### Installing the template
+See [INSTRUCTIONS.md](./INSTRUCTIONS.md) for detailed setup and development guide.
 
-#### 1. Initialize template with Sanity CLI
+### Quick Start
 
-Run the command in your Terminal to initialize this template on your local computer.
+```bash
+# Install dependencies
+pnpm install
 
-See the documentation if you are [having issues with the CLI](https://www.sanity.io/help/cli-errors).
+# Start development servers (frontend + studio)
+pnpm dev
 
-```shell
-npm create sanity@latest -- --template robotostudio/turbo-start-sanity
+# Or run separately
+pnpm dev:next    # Frontend only (http://localhost:3000)
+pnpm dev:studio  # Studio only (http://localhost:3333)
 ```
 
-#### 2. Run Studio and Next.js app locally
+### Generate Types
 
-Navigate to the template directory using `cd <your app name>`, and start the development servers by running the following command
-
-```shell
-pnpm run dev
+```bash
+pnpm typegen
 ```
 
-#### 3. Open the app and sign in to the Studio
+Run this after any schema or query changes to regenerate TypeScript types.
 
-Open the Next.js app running locally in your browser on [http://localhost:3000](http://localhost:3000).
+## Environment Variables
 
-Open the Studio running locally in your browser on [http://localhost:3333](http://localhost:3333). You should now see a screen prompting you to log in to the Studio. Use the same service (Google, GitHub, or email) that you used when you logged in to the CLI.
+### Frontend (`/frontend/.env.local`)
 
-### Adding content with Sanity
+```env
+NEXT_PUBLIC_SITE_URL=https://yoursite.com
+NEXT_PUBLIC_SITE_ENV=development
+NEXT_PUBLIC_STUDIO_URL=https://studio.yoursite.com
+NEXT_PUBLIC_SANITY_API_VERSION=2024-01-01
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+NEXT_PUBLIC_SANITY_DATASET=production
+SANITY_API_READ_TOKEN=your_read_token
 
-#### 1. Publish your first document
-
-The template comes pre-defined with a schema containing `Author`, `Blog`, `BlogIndex`, `FAQ`, `Footer`, `HomePage`, `Navbar`, `Page`, and `Settings` document types.
-
-From the Studio, click "+ Create" and select the `Blog` document type. Go ahead and create and publish the document.
-
-Your content should now appear in your Next.js app ([http://localhost:3000](http://localhost:3000)) as well as in the Studio on the "Presentation" Tab
-
-#### 2. Sample Content
-
-When you initialize the template using the Sanity CLI, sample content is automatically imported into your project. This includes example blog posts, authors, and other content types to help you get started quickly.
-
-#### 3. Extending the Sanity schema
-
-The schemas for all document types are defined in the `studio/schemaTypes/documents` directory. You can [add more document types](https://www.sanity.io/docs/schema-types) to the schema to suit your needs.
-
-### Deploying your application and inviting editors
-
-#### 1. Deploy Sanity Studio
-
-Your Next.js frontend (`/web`) and Sanity Studio (`/studio`) are still only running on your local computer. It's time to deploy and get it into the hands of other content editors.
-
-The template includes a GitHub Actions workflow [`deploy-sanity.yml`](https://raw.githubusercontent.com/robotostudio/turbo-start-sanity/main/.github/workflows/deploy-sanity.yml) that automatically deploys your Sanity Studio whenever changes are pushed to the `studio` directory.
-
-> **Note**: To use the GitHub Actions workflow, make sure to configure the following secrets in your repository settings:
->
-> - `SANITY_DEPLOY_TOKEN`
-> - `SANITY_STUDIO_PROJECT_ID`
-> - `SANITY_STUDIO_DATASET`
-> - `SANITY_STUDIO_TITLE`
-> - `SANITY_STUDIO_PRESENTATION_URL`
-
-Alternatively, you can manually deploy from your Studio directory (`/studio`) using:
-
-```shell
-npx sanity deploy
+# Resend (for contact forms)
+RESEND_API_KEY=your_resend_key
+RESEND_TO_EMAIL=you@yoursite.com
+RESEND_FROM_EMAIL=noreply@yoursite.com
 ```
 
-#### 2. Deploy Next.js app to Vercel
+### Studio (`/studio/.env.local`)
 
-You have the freedom to deploy your Next.js app to your hosting provider of choice. With Vercel and GitHub being a popular choice, we'll cover the basics of that approach.
+```env
+SANITY_STUDIO_PROJECT_ID=your_project_id
+SANITY_STUDIO_DATASET=production
+```
 
-1. Create a GitHub repository from this project. [Learn more](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github).
-2. Create a new Vercel project and connect it to your Github repository.
-3. Set the `Root Directory` to your Next.js app (`/apps/web`).
-4. Configure your Environment Variables.
+## Deployment
 
-#### 3. Invite a collaborator
+### Frontend (Vercel)
 
-Now that you’ve deployed your Next.js application and Sanity Studio, you can optionally invite a collaborator to your Studio. Open up [Manage](https://www.sanity.io/manage), select your project and click "Invite project members"
+1. Create new Vercel project
+2. Set root directory to `/frontend`
+3. Add environment variables
+4. Deploy
 
-They will be able to access the deployed Studio, where you can collaborate together on creating content.
+### Studio (Vercel)
+
+1. Create new Vercel project
+2. Set root directory to `/studio`
+3. Add environment variables
+4. Deploy
+
+### CORS Configuration
+
+Add your domains to Sanity CORS origins:
+- Frontend: `https://yoursite.com`
+- Studio: `https://studio.yoursite.com`
+
+## License
+
+Private project.
+
+[react-url]: https://reactjs.org/
+[next-js-url]: https://nextjs.org/
+[typescript-url]: https://www.typescriptlang.org/
+[tailwind-url]: https://tailwindcss.com/
+[sanity-url]: https://www.sanity.io/
+[react]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[next-js]: https://img.shields.io/badge/Next.js-20232A?style=for-the-badge&logo=Next.js
+[typescript]: https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white
+[tailwind]: https://img.shields.io/badge/Tailwind_CSS-20232A?style=for-the-badge&logo=tailwindcss&logoColor=319795
+[sanity]: https://img.shields.io/badge/Sanity-20232A?style=for-the-badge&logo=sanity&logoColor=F97316

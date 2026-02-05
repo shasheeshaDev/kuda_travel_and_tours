@@ -1,23 +1,15 @@
 {
-  "name": "next-sanity-turbo",
-  "version": "0.0.2",
-  "private": true,
+  "name": "sanityblocks",
+  "version": "1.2.0",
+  "description": "SanityBlocks: Next.js + Sanity + shadcnblocks.com",
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
-    "check-types": "turbo check-types",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "dev": "pnpm --parallel -r run dev",
+    "build": "pnpm --parallel -r run build",
+    "dev:next": "pnpm run dev --workspace=frontend",
+    "dev:studio": "pnpm run dev --workspace=studio",
+    "typegen": "cd studio && pnpm typegen",
+    "typecheck": "cd frontend && pnpm typecheck",
+    "export": "cd studio && sanity dataset export production sample-data.tar.gz"
   },
-  "devDependencies": {
-    "@workspace/eslint-config": "workspace:*",
-    "@workspace/typescript-config": "workspace:*",
-    "prettier": "^3.5.3",
-    "turbo": "^2.4.4",
-    "typescript": "5.7.3"
-  },
-  "packageManager": "pnpm@9.12.3",
-  "engines": {
-    "node": ">=20"
-  }
+  "homepage": "https://www.shadcnblocks.com/"
 }
