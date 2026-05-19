@@ -41,7 +41,7 @@ const SANITY_STUDIO_PREVIEW_URL =
   process.env.SANITY_STUDIO_PREVIEW_URL || "http://localhost:3000";
 
 export default defineConfig({
-  title: "Sanityblocks",
+  title: process.env.SANITY_STUDIO_WEBSITE_NAME || "Kuda Travel & Tours",
   projectId,
   dataset,
   // Add and edit the content schema in the './sanity/schema' folder

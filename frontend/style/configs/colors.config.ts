@@ -2,7 +2,7 @@
  * Color Configuration
  *
  * Defines all brand colors, icon colors, and PDP color scales
- * used throughout the Dudley Park application.
+ * used throughout the Kuda Travel & Tours application.
  *
  * Usage in components:
  * - Tailwind classes: bg-brand-primary, text-brand-secondary
@@ -23,11 +23,19 @@
  */
 
 export const brandColors = {
-	primary: "#FFBB00",
-	secondary: "#2B2B2B",
-	tertiary: "#F1F2F6",
+	primary: "#474546",    // charcoal — main brand colour
+	secondary: "#1a1819",  // near-black text
+	dark: "#2d2b2c",       // darker charcoal (hover, footer bg)
+	tertiary: "#faf8f5",   // warm cream
 	white: "#FFFFFF",
 	black: "#000000",
+	muted: "#767374",      // muted text
+	border: "#e8e6e4",
+	cream: "#faf8f5",
+	heroBg: "#edf0f5",     // hero / section background
+	sageBg: "#f0f4f1",     // sage-green light section bg
+	accentBlue: "#5a8fa8", // accent slate-blue
+	accentGold: "#d4a853", // accent gold (star ratings)
 } as const;
 
 

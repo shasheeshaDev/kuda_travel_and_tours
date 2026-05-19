@@ -157,58 +157,22 @@ export default defineType({
       type: "array",
       group: "content",
       of: [
-        { type: "banner-1" },
-        { type: "banner-2" },
-
-        { type: "video-1" },
-
-        { type: "content-1" },
-        { type: "content-2" },
-        { type: "content-3" },
-        { type: "content-4" },
-
-        { type: "card-1" },
-        { type: "card-2" },
-        { type: "card-3" },
-        { type: "card-4" },
-        { type: "card-5" },
-
-        { type: "form-1" },
-
-        { type: "testimonial-1" },
-
-        { type: "collection-1" },
+        { type: "hero-kuda" },
+        { type: "trust-strip" },
+        { type: "who-we-are" },
+        { type: "services-grid" },
+        { type: "how-it-works" },
+        { type: "stats-1" },
+        { type: "testimonials-kuda" },
+        { type: "cta-form" },
+        { type: "faq-1" },
       ],
       options: {
         insertMenu: {
           groups: [
             {
-              name: "banner",
-              of: ["banner-1", "banner-2"],
-            },
-            {
-              name: "video",
-              of: ["video-1"],
-            },
-            {
-              name: "card",
-              of: ["card-1", "card-2", "card-3", "card-4", "card-5"],
-            },
-            {
-              name: "content",
-              of: ["content-1", "content-2", "content-3", "content-4"],
-            },
-            {
-              name: "form",
-              of: ["form-1"],
-            },
-            {
-              name: "testimonial",
-              of: ["testimonial-1"],
-            },
-            {
-              name: "collection",
-              of: ["collection-1"],
+              name: "kuda",
+              of: ["hero-kuda", "trust-strip", "who-we-are", "services-grid", "how-it-works", "stats-1", "testimonials-kuda", "cta-form", "faq-1"],
             },
           ],
           views: [

@@ -175,12 +175,9 @@ const DynamicForm = ({ formSettings, bgcolor }: FormProps) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className={`w-full flex flex-col ${bgcolor === "primary" || bgcolor === "secondary"
-            ? "text-primary-foreground"
-            : "text-black"
-            }`}
+          className="w-full flex flex-col"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {fields.map((field, index) => {
               const {
                 label,
@@ -536,20 +533,20 @@ const DynamicForm = ({ formSettings, bgcolor }: FormProps) => {
             })}
           </div>
 
-          <div className="form-footer mt-8 flex justify-start">
+          <div className="form-footer mt-6 flex justify-start">
             <Button
               type="submit"
               disabled={form.formState.isSubmitting}
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto h-auto px-7 py-[14px] rounded-lg text-[15px] font-semibold bg-brand-primary hover:bg-brand-dark text-white transition-colors duration-200"
             >
               {form.formState.isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Submitting...
+                  Sending…
                 </>
               ) : (
                 <>
-                  {selectedFormSheet?.submitButtonText || "Submit"}
+                  {selectedFormSheet?.submitButtonText || "Send Enquiry"}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </>
               )}

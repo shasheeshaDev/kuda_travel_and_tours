@@ -1,7 +1,7 @@
 {
-  "name": "sanityblocks",
-  "version": "1.2.0",
-  "description": "SanityBlocks: Next.js + Sanity + shadcnblocks.com",
+  "name": "kuda-travel-and-tours",
+  "version": "1.0.0",
+  "description": "Kuda Travel & Tours — Sri Lanka travel company website (Next.js + Sanity)",
   "scripts": {
     "dev": "pnpm --parallel -r run dev",
     "build": "pnpm --parallel -r run build",
@@ -9,7 +9,8 @@
     "dev:studio": "pnpm run dev --workspace=studio",
     "typegen": "cd studio && pnpm typegen",
     "typecheck": "cd frontend && pnpm typecheck",
-    "export": "cd studio && sanity dataset export production sample-data.tar.gz"
+    "export": "cd studio && sanity dataset export production sample-data.tar.gz",
+    "seed": "cd studio && pnpm seed-content"
   },
-  "homepage": "https://www.shadcnblocks.com/"
+  "homepage": "https://kudatravels.com"
 }

@@ -1,6 +1,6 @@
 {
-  "name": "sanityblocks",
-  "version": "1.2.0",
+  "name": "kuda-travel-and-tours-studio",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "sanity dev",
@@ -13,7 +13,8 @@
     "add-sample-to-menu": "tsx scripts/add-sample-page-to-menu.ts",
     "create-category-pages": "tsx scripts/create-category-pages.ts",
     "add-showcase-menu": "tsx scripts/add-showcase-menu.ts",
-    "remove-all-samples": "tsx scripts/remove-all-sample-pages.ts"
+    "remove-all-samples": "tsx scripts/remove-all-sample-pages.ts",
+    "seed-content": "tsx scripts/seed-content.ts"
   },
   "dependencies": {
     "@sanity/code-input": "^6.0.1",

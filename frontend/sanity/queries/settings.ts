@@ -4,6 +4,10 @@ import { imageQuery } from "./shared/image";
 export const SETTINGS_QUERY = groq`*[_type == "settings"][0]{
   _type,
   siteName,
+  phone,
+  whatsappNumber,
+  email,
+  address,
   logo{
     ${imageQuery}
   },

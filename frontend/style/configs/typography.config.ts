@@ -141,169 +141,170 @@ export const typographyBlockConfig: TypographyBlockConfig = {
   blocks: {
     // Anchor
     anchor: {
-      fontFamily: bp(fonts.poppins),
-      color: bp(colors.brand.secondary), // Using brand color
+      fontFamily: bp(fonts.plusJakartaSans),
+      color: bp(colors.brand.secondary),
       textDecoration: bp("none"),
-      transition: bp("color 0.3s ease"),
+      transition: bp("color 0.2s ease"),
     },
 
     //span
     span: {
-      fontFamily: bp(fonts.poppins),
+      fontFamily: bp(fonts.plusJakartaSans),
     },
 
-    // Headings
+    // Headings — Plus Jakarta Sans throughout, matching Kuda design
     h1: {
       fontFamily: bp(fonts.plusJakartaSans),
-      fontSize: bpResponsive("36px", "36px", "40px", "60px", "60px", "60px"),
-      fontWeight: bp("700"),
-      lineHeight: bp("100%"),
-      color: bp(colors.brand.white),
+      fontSize: bpResponsive("32px", "36px", "40px", "52px", "58px", "58px"),
+      fontWeight: bp("800"),
+      lineHeight: bp("110%"),
+      color: bp(colors.brand.secondary),
     },
 
     h2: {
       fontFamily: bp(fonts.plusJakartaSans),
-      fontSize: bpResponsive("32px", "32px", "32px", "46px", "52px", "52px"),
-      fontWeight: bp("700"),
-      lineHeight: bp("125%"),
+      fontSize: bpResponsive("28px", "28px", "32px", "40px", "44px", "44px"),
+      fontWeight: bp("800"),
+      lineHeight: bp("115%"),
       color: bp(colors.brand.secondary),
     },
 
     h3: {
       fontFamily: bp(fonts.plusJakartaSans),
-      fontSize: bp("30px"),
-      fontWeight: bp("500"),
-      lineHeight: bp("40px"),
+      fontSize: bpResponsive("20px", "20px", "22px", "26px", "28px", "28px"),
+      fontWeight: bp("700"),
+      lineHeight: bp("130%"),
       color: bp(colors.brand.secondary),
     },
 
     h4: {
       fontFamily: bp(fonts.plusJakartaSans),
-      fontSize: bp("20px"),
-      fontWeight: bp("500"),
-      lineHeight: bp("100%"),
+      fontSize: bp("18px"),
+      fontWeight: bp("700"),
+      lineHeight: bp("130%"),
       color: bp(colors.brand.secondary),
     },
 
     h5: {
       fontFamily: bp(fonts.plusJakartaSans),
-      fontSize: bp("20px"),
-      fontWeight: bp("500"),
-      lineHeight: bp("100%"),
+      fontSize: bp("16px"),
+      fontWeight: bp("600"),
+      lineHeight: bp("130%"),
       color: bp(colors.brand.secondary),
     },
 
     h6: {
       fontFamily: bp(fonts.plusJakartaSans),
-      fontSize: bpResponsive("18px", "18px", "18px", "18px", "20px", "20px"),
-      fontWeight: bp("500"),
-      lineHeight: bp("100%"),
+      fontSize: bp("14px"),
+      fontWeight: bp("600"),
+      lineHeight: bp("130%"),
       color: bp(colors.brand.secondary),
     },
 
     displayHeading: {
       fontFamily: bp(fonts.plusJakartaSans),
-      fontSize: bpResponsive("32px", "46px", "40px", "62px", "72px", "72px"),
-      fontWeight: bp("700"),
+      fontSize: bpResponsive("36px", "46px", "52px", "64px", "72px", "72px"),
+      fontWeight: bp("800"),
       lineHeight: bp("100%"),
-      color: bp(colors.brand.white),
+      color: bp(colors.brand.secondary),
     },
 
     // Paragraphs
     xsPara: {
-      fontFamily: bp(fonts.poppins),
+      fontFamily: bp(fonts.plusJakartaSans),
       fontSize: bp("12px"),
       fontWeight: bp("400"),
       lineHeight: bp("20px"),
-      color: bp(colors.brand.primary), // Using brand color
+      color: bp(colors.brand.muted),
     },
 
     sPara: {
-      fontFamily: bp(fonts.poppins),
-      fontSize: bp("16px"),
+      fontFamily: bp(fonts.plusJakartaSans),
+      fontSize: bp("14px"),
       fontWeight: bp("400"),
-      lineHeight: bp("28px"),
-      color: bp(colors.brand.primary), // Using brand color
+      lineHeight: bp("24px"),
+      color: bp(colors.brand.muted),
     },
 
     para: {
-      fontFamily: bp(fonts.poppins),
-      fontSize: bpResponsive("14px","16px"),
+      fontFamily: bp(fonts.plusJakartaSans),
+      fontSize: bpResponsive("15px", "15px", "16px", "16px", "17px", "17px"),
       fontWeight: bp("400"),
-      lineHeight: bp("24px"),
-      color: bp(colors.brand.secondary), // Using brand color
+      lineHeight: bp("170%"),
+      color: bp(colors.brand.muted),
     },
 
     lPara: {
-      fontFamily: bp(fonts.poppins),
-      fontSize: bp("20px"),
+      fontFamily: bp(fonts.plusJakartaSans),
+      fontSize: bp("18px"),
       fontWeight: bp("400"),
-      lineHeight: bp("28px"),
+      lineHeight: bp("170%"),
+      color: bp(colors.brand.muted),
     },
 
     xlPara: {
-      fontFamily: bp(fonts.poppins),
-      fontSize: bpResponsive("18px", "20px", "20px", "20px", "20px", "20px"),
+      fontFamily: bp(fonts.plusJakartaSans),
+      fontSize: bpResponsive("17px", "18px", "18px", "19px", "20px", "20px"),
       fontWeight: bp("400"),
-      lineHeight: bp("32px"),
-      color: bp(colors.brand.secondary), // Using brand color
+      lineHeight: bp("170%"),
+      color: bp(colors.brand.muted),
     },
 
     // Special
     eyebrowHeading: {
-      fontFamily: bp(fonts.poppins),
-      fontSize: bpResponsive("18px", "24px"),
-      fontWeight: bpResponsive("500","500","500","600"),
-      lineHeight: bp("28px"),
-      color: bp(colors.brand.primary), // Using brand color
+      fontFamily: bp(fonts.plusJakartaSans),
+      fontSize: bp("12px"),
+      fontWeight: bp("600"),
+      lineHeight: bp("normal"),
+      color: bp(colors.brand.muted),
     },
 
     menuItem: {
-      fontFamily: bp(fonts.poppins),
-      fontSize: bpResponsive("24px", "24px", "24px", "14px", "16px", "16px"),
+      fontFamily: bp(fonts.plusJakartaSans),
+      fontSize: bpResponsive("24px", "24px", "24px", "14px", "15px", "15px"),
       fontWeight: bp("500"),
-      lineHeight: bpResponsive("36px", "36px", "36px", "24px", "28px", "28px"),
-      color: bp(colors.brand.secondary), // Using brand color
+      lineHeight: bpResponsive("36px", "36px", "36px", "24px", "24px", "24px"),
+      color: bp(colors.brand.secondary),
     },
 
     subMenuItem: {
-      fontFamily: bp(fonts.poppins),
-      fontSize: bpResponsive("24px", "24px", "24px", "14px", "14px", "14px"),
+      fontFamily: bp(fonts.plusJakartaSans),
+      fontSize: bpResponsive("20px", "20px", "20px", "13px", "14px", "14px"),
       fontWeight: bp("400"),
-      lineHeight: bpResponsive("36px", "36px", "36px", "24px", "24px", "24px"),
-      color: bp(colors.brand.secondary), // Using brand color
+      lineHeight: bpResponsive("32px", "32px", "32px", "22px", "22px", "22px"),
+      color: bp(colors.brand.muted),
     },
 
     ctaHeading: {
-      fontFamily: bp(fonts.poppins),
-      fontSize: bpResponsive("36px", "36px", "36px", "36px", "60px", "60px"),
-      fontWeight: bp("700"),
-      lineHeight: bpResponsive("48px", "48px", "48px", "64px", "80px", "80px"),
-      color: bp(colors.brand.primary), // Using brand color
+      fontFamily: bp(fonts.plusJakartaSans),
+      fontSize: bpResponsive("28px", "32px", "36px", "42px", "46px", "46px"),
+      fontWeight: bp("800"),
+      lineHeight: bp("112%"),
+      color: bp(colors.brand.secondary),
     },
 
     ctaPara: {
-      fontFamily: bp(fonts.poppins),
-      fontSize: bp("16px"),
+      fontFamily: bp(fonts.plusJakartaSans),
+      fontSize: bp("17px"),
       fontWeight: bp("400"),
-      lineHeight: bp("28px"),
-      color: bp(colors.brand.secondary), // Using brand color
+      lineHeight: bp("170%"),
+      color: bp(colors.brand.muted),
     },
 
     mainListItem: {
-      fontFamily: bp(fonts.poppins),
-      fontSize: bp("16px"),
-      fontWeight: bp("400"),
-      lineHeight: bp("28px"),
-      color: bp(colors.brand.secondary), // Using brand color
+      fontFamily: bp(fonts.plusJakartaSans),
+      fontSize: bp("15px"),
+      fontWeight: bp("500"),
+      lineHeight: bp("160%"),
+      color: bp(colors.brand.secondary),
     },
 
     subListItem: {
-      fontFamily: bp(fonts.poppins),
-      fontSize: bp("16px"),
+      fontFamily: bp(fonts.plusJakartaSans),
+      fontSize: bp("14px"),
       fontWeight: bp("400"),
-      lineHeight: bp("28px"),
-      color: bp(colors.brand.secondary), // Using brand color
+      lineHeight: bp("160%"),
+      color: bp(colors.brand.muted),
     },
   },
 };

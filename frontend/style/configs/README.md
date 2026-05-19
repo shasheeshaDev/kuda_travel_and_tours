@@ -1,6 +1,6 @@
 # Style Configuration Guide
 
-This directory contains configuration files for the Dudley Park project's design system.
+This directory contains configuration files for the Kuda Travel & Tours project's design system.
 
 ## Color Configuration
 

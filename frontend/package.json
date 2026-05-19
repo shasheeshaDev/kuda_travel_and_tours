@@ -1,6 +1,6 @@
 {
-  "name": "sanityblocks",
-  "version": "1.2.0",
+  "name": "kuda-travel-and-tours-frontend",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

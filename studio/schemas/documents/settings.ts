@@ -42,11 +42,30 @@ export default defineType({
       description: "The name of your site",
       validation: (Rule) => Rule.required().error("Site name is required"),
     }),
-    // defineField({
-    //   name: "copyright",
-    //   type: "block-content",
-    //   description: "The copyright text to display in the footer",
-    // }),
+    defineField({
+      name: "phone",
+      type: "string",
+      title: "Phone Number",
+      description: "Phone number displayed in the footer (e.g. +94 77 123 4567)",
+    }),
+    defineField({
+      name: "whatsappNumber",
+      type: "string",
+      title: "WhatsApp Number",
+      description: "WhatsApp number in international format without spaces or + (e.g. 94771234567) — used for the WhatsApp chat button",
+    }),
+    defineField({
+      name: "email",
+      type: "string",
+      title: "Contact Email",
+      description: "Primary contact email displayed in footer and FAQ",
+    }),
+    defineField({
+      name: "address",
+      type: "string",
+      title: "Address",
+      description: "Business address displayed in footer",
+    }),
   ],
   preview: {
     select: {

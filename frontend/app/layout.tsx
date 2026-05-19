@@ -13,7 +13,7 @@ const fontPoppins = Poppins({
 // Replace with local font if you have Oakes Grotesk font files
 const fontPlusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-plus-jakarta-sans",
 });
 
@@ -27,7 +27,7 @@ export default function RootLayout({
       <link rel="icon" href="/favicon.ico" />
       <body
         className={cn(
-          "min-h-screen bg-background font-poppins antialiased overscroll-none",
+          "min-h-screen bg-background font-plusJakartaSans antialiased overscroll-none",
           fontPoppins.variable,
           fontPlusJakartaSans.variable
         )}

@@ -1,474 +1,497 @@
-# Pekka - Development Instructions
+# Kuda Travel & Tours — Development Instructions
 
-Complete guide for setting up, developing, and maintaining the Pekka project.
+Complete guide for setting up, developing, and maintaining the project.
+
+---
 
 ## Table of Contents
 
 1. [Prerequisites](#prerequisites)
 2. [Initial Setup](#initial-setup)
 3. [Development Workflow](#development-workflow)
-4. [Adding New Blocks](#adding-new-blocks)
-5. [Working with Queries](#working-with-queries)
-6. [Type Generation](#type-generation)
-7. [Deployment](#deployment)
-8. [Troubleshooting](#troubleshooting)
+4. [Seeding Content](#seeding-content)
+5. [Adding New Blocks](#adding-new-blocks)
+6. [Working with Queries](#working-with-queries)
+7. [Type Generation](#type-generation)
+8. [Design Tokens](#design-tokens)
+9. [Deployment](#deployment)
+10. [Troubleshooting](#troubleshooting)
 
 ---
 
 ## Prerequisites
 
-### Required Software
-
-- **Node.js** - v18.17 or higher
-- **pnpm** - Package manager (install globally: `npm install -g pnpm`)
-- **Sanity CLI** - `pnpm install -g sanity@latest`
-
-### Accounts Required
-
+- **Node.js** v18.17 or higher
+- **pnpm** — `npm install -g pnpm`
+- **Sanity CLI** — `pnpm install -g sanity@latest`
 - [Sanity.io](https://www.sanity.io/) account
-- [Resend](https://resend.com/) account (for contact forms)
+- [Resend](https://resend.com/) account (for enquiry form emails)
 - [Vercel](https://vercel.com/) account (for deployment)
 
 ---
 
 ## Initial Setup
 
-### 1. Clone and Install
+### 1. Install dependencies
 
 ```bash
-# Clone the repository
-git clone <repository-url> pekka
-cd pekka
-
-# Install all dependencies (frontend + studio)
 pnpm install
 ```
 
-### 2. Sanity Project Setup
+### 2. Configure environment variables
 
-1. Log in to Sanity CLI:
-   ```bash
-   sanity login
-   ```
-
-2. Create a new project at [sanity.io/manage](https://www.sanity.io/manage)
-
-3. In your Sanity project settings:
-   - Go to **API** > **CORS Origins**
-   - Add `http://localhost:3000` (for development)
-   - Add `http://localhost:3333` (for studio)
-
-4. Create an API token:
-   - Go to **API** > **Tokens**
-   - Create a new token with **Viewer** permissions
-   - Save the token securely
-
-### 3. Environment Configuration
-
-#### Frontend (`/frontend/.env.local`)
+#### Frontend — `frontend/.env.local`
 
 ```bash
 cp frontend/.env.local.example frontend/.env.local
 ```
 
-Edit the file with your values:
-
 ```env
-# Site Configuration
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_SITE_ENV=development
 NEXT_PUBLIC_STUDIO_URL=http://localhost:3333
 
-# Sanity Configuration
-NEXT_PUBLIC_SANITY_API_VERSION=2024-01-01
+NEXT_PUBLIC_SANITY_API_VERSION=2026-05-14
 NEXT_PUBLIC_SANITY_PROJECT_ID=<your-project-id>
-NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_DATASET=development
 SANITY_API_READ_TOKEN=<your-viewer-token>
 
-# Resend (Contact Forms)
-RESEND_API_KEY=<your-resend-api-key>
-RESEND_TO_EMAIL=<email-to-receive-submissions>
-RESEND_FROM_EMAIL=<email-to-send-from>
+RESEND_API_KEY=<your-resend-key>
+NEXT_RESEND_FROM_EMAIL=<from@yourdomain.com>
 ```
 
-#### Studio (`/studio/.env.local`)
+#### Studio — `studio/.env.local`
 
 ```bash
 cp studio/.env.local.example studio/.env.local
 ```
 
-Edit the file:
-
 ```env
+SANITY_STUDIO_PREVIEW_URL=http://localhost:3000
+SANITY_STUDIO_API_VERSION=2026-05-14
 SANITY_STUDIO_PROJECT_ID=<your-project-id>
-SANITY_STUDIO_DATASET=production
+SANITY_STUDIO_DATASET=development
+
+# Required only for pnpm seed (see §Seeding Content)
+SANITY_API_WRITE_TOKEN=<your-editor-token>
 ```
 
-### 4. Import Sample Data (Optional)
+### 3. Sanity CORS setup
 
-```bash
-cd studio
-sanity dataset import sample-data.tar.gz production --replace
+In [sanity.io/manage](https://sanity.io/manage) → your project → **API → CORS Origins**, add:
+
+```
+http://localhost:3000
+http://localhost:3333
 ```
 
-> **Warning:** The `--replace` flag will overwrite existing data.
+### 4. Create API tokens
 
-### 5. Start Development Servers
+| Token | Permission | Where to paste |
+|---|---|---|
+| Viewer | Read-only | `SANITY_API_READ_TOKEN` in `frontend/.env.local` |
+| Editor | Read + write | `SANITY_API_WRITE_TOKEN` in `studio/.env.local` |
+
+Go to [sanity.io/manage](https://sanity.io/manage) → **API → Tokens → Add API token**.
+
+### 5. Seed content
+
+Insert all homepage content from the design into Sanity with one command:
 
 ```bash
-# From root directory - starts both frontend and studio
+pnpm seed
+```
+
+This creates/updates: **Settings, Header, Footer, 5 Testimonials, and the Home page** with all 9 blocks pre-filled from the design. The command is idempotent — safe to re-run.
+
+### 6. Upload the Kuda logo
+
+Open the Studio (`http://localhost:3333`) → **Settings → Logo** and upload `kuda-logo.png`.
+
+### 7. Start development servers
+
+```bash
 pnpm dev
-
-# Or run individually
-pnpm dev:next    # Frontend at http://localhost:3000
-pnpm dev:studio  # Studio at http://localhost:3333
+# Frontend: http://localhost:3000
+# Studio:   http://localhost:3333
 ```
 
 ---
 
 ## Development Workflow
 
-### Project Scripts
+### Scripts
 
 | Command | Description |
-|---------|-------------|
+|---|---|
 | `pnpm dev` | Start both frontend and studio |
-| `pnpm dev:next` | Start frontend only |
-| `pnpm dev:studio` | Start studio only |
-| `pnpm build` | Build both projects |
-| `pnpm typegen` | Generate TypeScript types |
-| `pnpm typecheck` | Run TypeScript type checking |
+| `pnpm dev:next` | Frontend only |
+| `pnpm dev:studio` | Studio only |
+| `pnpm build` | Build both |
+| `pnpm typegen` | Regenerate TypeScript types |
+| `pnpm typecheck` | TypeScript check on frontend |
+| `pnpm seed` | Insert design content into Sanity |
 
-### File Structure Conventions
+### File naming conventions
 
 ```
 frontend/
-├── components/
-│   └── blocks/
-│       └── <category>/
-│           └── <block-name>.tsx    # e.g., card-option-1.tsx
-│
-├── sanity/
-│   └── queries/
-│       └── <category>/
-│           └── <block-name>.ts     # e.g., card1.ts
+├── components/blocks/<category>/<block-name>.tsx   e.g. hero/hero-kuda.tsx
+├── sanity/queries/<category>/<block-name>.ts        e.g. hero/hero-kuda.ts
 │
 studio/
-└── schemas/
-    └── blocks/
-        └── <category>/
-            └── <block-name>.ts     # e.g., card1.ts
+└── schemas/blocks/<category>/<block-name>.ts        e.g. hero/hero-kuda.ts
 ```
+
+---
+
+## Seeding Content
+
+The seed script (`studio/scripts/seed-content.ts`) writes all design content directly to Sanity via the API.
+
+### Requirements
+
+1. `SANITY_API_WRITE_TOKEN` must be set in `studio/.env.local` (Editor-level token)
+
+### Run
+
+```bash
+# From project root
+pnpm seed
+```
+
+### What it creates
+
+| Document | `_id` |
+|---|---|
+| Settings | `kuda-settings` |
+| Header | `kuda-header` |
+| Footer | `kuda-footer` |
+| Testimonial — Sarah M. | `kuda-t-sarah` |
+| Testimonial — Ravi K. | `kuda-t-ravi` |
+| Testimonial — Anna T. | `kuda-t-anna` |
+| Testimonial — James W. | `kuda-t-james` |
+| Testimonial — Nadia F. | `kuda-t-nadia` |
+| Home page | `kuda-home` |
+
+All documents use `createOrReplace`, so re-running will update existing content without creating duplicates.
 
 ---
 
 ## Adding New Blocks
 
-### Step 1: Create Schema (Studio)
+Follow these six steps for every new block.
 
-Create a new file in `studio/schemas/blocks/<category>/<blockname>.ts`:
+### Step 1 — Schema (Studio)
+
+Create `studio/schemas/blocks/<category>/<name>.ts`:
 
 ```typescript
 import { defineType, defineField } from "sanity";
-import { IconName } from "lucide-react";
+import { SomeIcon } from "lucide-react";
 
 export default defineType({
-  name: "block-name",
+  name: "my-block",
   type: "object",
-  title: "Block Name",
-  icon: IconName,
+  title: "My Block",
+  icon: SomeIcon,
   groups: [
     { name: "content", title: "Content", default: true },
     { name: "block-settings", title: "Block Settings" },
   ],
   fields: [
-    defineField({
-      name: "padding",
-      type: "section-padding",
-      group: "block-settings",
-    }),
-    // Add your fields here
+    defineField({ name: "padding", type: "section-padding", group: "block-settings" }),
+    // add your fields here
   ],
   preview: {
-    prepare() {
-      return { title: "Block Name" };
+    select: { title: "heading" },
+    prepare({ title }) {
+      return { title: title ?? "My Block" };
     },
   },
 });
 ```
 
-### Step 2: Register Schema
+### Step 2 — Register Schema
 
-Add to `studio/schemas/index.ts`:
-
-```typescript
-import blockName from "./blocks/<category>/<blockname>";
-
-export const schemaTypes = [
-  // ... existing schemas
-  blockName,
-];
-```
-
-Add to page schema blocks array in `studio/schemas/documents/page.ts`:
+In `studio/schema.ts`:
 
 ```typescript
-defineField({
-  name: "blocks",
-  type: "array",
-  of: [
-    // ... existing blocks
-    { type: "block-name" },
+import myBlock from "./schemas/blocks/<category>/<name>";
+// …
+export const schema: { types: SchemaTypeDefinition[] } = {
+  types: [
+    // …existing…
+    myBlock,
   ],
-});
+};
 ```
 
-### Step 3: Create Query (Frontend)
-
-Create `frontend/sanity/queries/<category>/<blockname>.ts`:
+In `studio/schemas/documents/page.ts`, add to the `blocks` array:
 
 ```typescript
-import { imageQuery } from "../shared/image";
+{ type: "my-block" },
+```
 
-export const blockNameQuery = `
-  _type == "block-name" => {
+### Step 3 — GROQ Query
+
+Create `frontend/sanity/queries/<category>/<name>.ts`:
+
+```typescript
+import { buttonQuery } from "../shared/button"; // if you need buttons
+
+export const myBlockQuery = `
+  _type == "my-block" => {
     _type,
     _key,
-    padding,
-    // Add your fields here
+    heading,
+    // …your fields
   }
 `;
 ```
 
-Add to page query in `frontend/sanity/queries/page.ts`:
+Import in `frontend/sanity/queries/page.ts`:
 
 ```typescript
-import { blockNameQuery } from "./<category>/<blockname>";
+import { myBlockQuery } from "./<category>/<name>";
 
 export const PAGE_QUERY = groq`
   *[_type == "page" && slug.current == $slug][0]{
-    // ...
+    // …
     blocks[]{
-      // ... existing queries
-      ${blockNameQuery},
+      // …existing queries…
+      ${myBlockQuery},
     },
-    // ...
   }
 `;
 ```
 
-### Step 4: Create Component (Frontend)
+### Step 4 — Generate Types
 
-Create `frontend/components/blocks/<category>/<block-name>.tsx`:
+```bash
+pnpm typegen
+```
+
+### Step 5 — React Component
+
+Create `frontend/components/blocks/<category>/<name>.tsx`:
 
 ```typescript
 import { PAGE_QUERYResult } from "@/sanity.types";
 
-type BlockNameProps = Extract<
+type MyBlockProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
-  { _type: "block-name" }
+  { _type: "my-block" }
 >;
 
-const BlockName = ({ /* props */ }: BlockNameProps) => {
+export default function MyBlock({ heading }: MyBlockProps) {
   return (
-    <section className="block-name">
-      {/* Your component */}
+    <section>
+      <h2>{heading}</h2>
     </section>
   );
-};
-
-export default BlockName;
+}
 ```
 
-### Step 5: Register Component
+### Step 6 — Register Component
 
-Add to `frontend/components/blocks/index.tsx`:
+In `frontend/components/blocks/index.tsx`:
 
 ```typescript
-import BlockName from "@/components/blocks/<category>/<block-name>";
+import MyBlock from "@/components/blocks/<category>/<name>";
 
 const componentMap: Record<string, React.ComponentType<any>> = {
-  // ... existing components
-  "block-name": BlockName,
+  // …existing…
+  "my-block": MyBlock,
 };
-```
-
-### Step 6: Generate Types
-
-```bash
-pnpm typegen
 ```
 
 ---
 
 ## Working with Queries
 
-### Shared Query Fragments
+### Shared query fragments
 
 Located in `frontend/sanity/queries/shared/`:
 
-| File | Usage |
-|------|-------|
-| `image.ts` | Image with asset metadata |
-| `link.ts` | Internal/external links |
-| `button.ts` | Button with variants |
-| `intro-content.ts` | Eyebrow, heading, description |
-| `column-builder.ts` | Dynamic content blocks |
-| `meta.ts` | SEO metadata |
+| File | Exports | Use for |
+|---|---|---|
+| `image.ts` | `imageQuery` | Any image field with asset metadata |
+| `link.ts` | `linkQuery` | Internal / external links with resolved href |
+| `button.ts` | `buttonQuery`, `buttonGroupQuery` | Button objects |
+| `intro-content.ts` | `introContentQuery` | Eyebrow + heading + description |
+| `meta.ts` | `metaQuery` | SEO metadata |
 
-### Example: Using Shared Queries
+### Example usage
 
 ```typescript
 import { imageQuery } from "../shared/image";
-import { introContentQuery } from "../shared/intro-content";
+import { buttonQuery } from "../shared/button";
 
 export const myBlockQuery = `
   _type == "my-block" => {
     _type,
     _key,
-    image {
-      ${imageQuery}
-    },
-    ${introContentQuery}
+    image { ${imageQuery} },
+    cta { ${buttonQuery} },
   }
 `;
 ```
 
-### Field Aliasing
+### Resolving button href
 
-When schema field names differ from component expectations:
+The `linkQuery` automatically resolves the `href` field for both internal references and external links:
 
-```typescript
-collections[]->{
-  _id,
-  "title": name,        // Alias 'name' as 'title'
-  "description": location,  // Alias 'location' as 'description'
-}
+```groq
+"href": select(
+  isExternal => href,
+  @.internalLink->slug.current == "index" => "/",
+  @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,
+  "/" + @.internalLink->slug.current
+)
 ```
 
 ---
 
 ## Type Generation
 
-### When to Run
+### When to run
 
 Run `pnpm typegen` after:
 
-- Adding/modifying schemas
-- Adding/modifying GROQ queries
+- Adding or modifying schemas
+- Adding or modifying GROQ queries
 - Changing field names or types
 
-### What It Generates
+### What it generates
 
-- `studio/schema.json` - Extracted schema
-- `frontend/sanity.types.ts` - TypeScript types for all queries
+- `studio/schema.json` — extracted schema (intermediate)
+- `frontend/sanity.types.ts` — TypeScript types for all queries
 
-### Type Usage in Components
+### Typing component props
 
 ```typescript
 import { PAGE_QUERYResult } from "@/sanity.types";
 
-// Extract specific block type
+// Extract the exact type for a specific block
 type MyBlockProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
   { _type: "my-block" }
 >;
 
-// Use NonNullable for required nested types
+// For nested required fields
 type ImageType = NonNullable<NonNullable<PAGE_QUERYResult>["bannerImage"]>;
 ```
 
 ---
 
+## Design Tokens
+
+All brand colours are in `frontend/style/configs/colors.config.ts` and available as Tailwind utilities (`bg-brand-*`, `text-brand-*`, `border-brand-*`).
+
+| Tailwind class suffix | Hex | Purpose |
+|---|---|---|
+| `brand-primary` | `#474546` | Main brand charcoal |
+| `brand-dark` | `#2d2b2c` | Dark charcoal (footer, hover) |
+| `brand-secondary` | `#1a1819` | Body text |
+| `brand-muted` | `#767374` | Muted / secondary text |
+| `brand-border` | `#e8e6e4` | Borders and dividers |
+| `brand-cream` | `#faf8f5` | Warm section background |
+| `brand-heroBg` | `#edf0f5` | Hero / CTA section background |
+| `brand-sageBg` | `#f0f4f1` | Illustration background |
+| `brand-accentBlue` | `#5a8fa8` | Icons, highlights |
+| `brand-accentGold` | `#d4a853` | Star ratings |
+
+Raw CSS custom properties (`--kuda-primary`, `--kuda-accent-blue`, etc.) are also set in `frontend/app/globals.css` for use inside arbitrary Tailwind values: `bg-[var(--kuda-hero-bg)]`.
+
+**Font:** Plus Jakarta Sans (300–800), global default via `font-plusJakartaSans` on `<body>`.
+
+---
+
 ## Deployment
 
-### Vercel Deployment
+### Frontend — Vercel
 
-#### Frontend
-
-1. Create new Vercel project
-2. Connect GitHub repository
-3. Settings:
-   - **Root Directory:** `frontend`
-   - **Framework Preset:** Next.js
-4. Add environment variables from `.env.local`
+1. Create new Vercel project, connect GitHub repo
+2. Set **Root Directory** → `frontend`
+3. Set **Framework Preset** → Next.js
+4. Add all environment variables from `frontend/.env.local` (with production values)
 5. Deploy
 
-#### Studio
+### Studio — Vercel
 
-1. Create new Vercel project
-2. Connect same GitHub repository
-3. Settings:
-   - **Root Directory:** `studio`
-   - **Framework Preset:** Other
-   - **Build Command:** `pnpm build`
-   - **Output Directory:** `dist`
-4. Add environment variables from `.env.local`
-5. Deploy
+1. Create new Vercel project, connect same GitHub repo
+2. Set **Root Directory** → `studio`
+3. Set **Framework Preset** → Other
+4. Set **Build Command** → `pnpm build`
+5. Set **Output Directory** → `dist`
+6. Add `SANITY_STUDIO_PROJECT_ID`, `SANITY_STUDIO_DATASET`, `SANITY_STUDIO_API_VERSION`
+7. Deploy
 
-### Post-Deployment
+### Post-deployment checklist
 
-1. Update CORS origins in Sanity:
-   - Add production frontend URL
-   - Add production studio URL
-
-2. Update environment variables:
-   - `NEXT_PUBLIC_SITE_URL` → production URL
-   - `NEXT_PUBLIC_STUDIO_URL` → production studio URL
-   - `NEXT_PUBLIC_SITE_ENV` → `production`
+- [ ] Add production frontend URL to Sanity CORS origins
+- [ ] Add production studio URL to Sanity CORS origins
+- [ ] Update `NEXT_PUBLIC_SITE_URL` → production URL
+- [ ] Update `NEXT_PUBLIC_STUDIO_URL` → production studio URL
+- [ ] Set `NEXT_PUBLIC_SITE_ENV=production`
+- [ ] Verify enquiry form delivers emails (Resend → check logs)
+- [ ] Upload logo in Settings if not already done
 
 ---
 
 ## Troubleshooting
 
-### Common Issues
-
-#### Types Not Updating
+### Types are stale / components show `any`
 
 ```bash
-# Regenerate types
 pnpm typegen
-
-# Clear Next.js cache
 rm -rf frontend/.next
 pnpm dev:next
 ```
 
-#### Sanity Connection Errors
+### Sanity connection errors (401 / 403)
 
-1. Check CORS origins in Sanity dashboard
-2. Verify API token has correct permissions
-3. Confirm project ID matches
+1. Verify `SANITY_API_READ_TOKEN` is set and has Viewer permissions
+2. Check CORS origins include your current URL
+3. Confirm `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` match the studio values
 
-#### Build Errors
+### `pnpm seed` fails — token error
+
+1. Create an **Editor** token at sanity.io/manage → API → Tokens
+2. Add `SANITY_API_WRITE_TOKEN=<token>` to `studio/.env.local`
+3. Re-run `pnpm seed`
+
+### `pnpm seed` fails — document mutation error
+
+The dataset may be locked or the token may not have sufficient permissions. Ensure the token is **Editor** level, not Viewer.
+
+### Images not loading
+
+1. Verify the image field in the GROQ query includes `${imageQuery}`
+2. Check the `urlFor()` import comes from `@/sanity/lib/image`
+3. Confirm the asset has been uploaded in Studio
+
+### WhatsApp FAB not appearing
+
+1. Open Studio → **Settings** → add `whatsappNumber` (digits only, no `+`, e.g. `94771234567`)
+2. Re-deploy or restart the dev server — the layout fetches this at render time
+
+### Build fails — TypeScript errors
 
 ```bash
-# Type check for errors
 pnpm typecheck
-
-# Check for missing dependencies
-pnpm install
 ```
 
-#### Images Not Loading
-
-1. Verify image has `asset` reference in query
-2. Check `urlFor` function is imported correctly
-3. Ensure image field includes `${imageQuery}`
-
-### Getting Help
-
-- Check Sanity documentation: [sanity.io/docs](https://www.sanity.io/docs)
-- Next.js documentation: [nextjs.org/docs](https://nextjs.org/docs)
-- Review existing blocks for patterns
+Fix any reported errors, then re-run `pnpm typegen` if the issue is in generated types.
 
 ---
 
-## Best Practices
+## Resources
 
-1. **Always run typegen** after schema/query changes
-2. **Use shared queries** for consistent data fetching
-3. **Follow naming conventions** for files and components
-4. **Test locally** before deploying
-5. **Keep schemas simple** - use references for complex data
-6. **Document custom fields** with descriptions in schemas
+- [Next.js docs](https://nextjs.org/docs)
+- [Sanity docs](https://www.sanity.io/docs)
+- [GROQ reference](https://www.sanity.io/docs/groq)
+- [Tailwind CSS docs](https://tailwindcss.com/docs)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Resend docs](https://resend.com/docs)
