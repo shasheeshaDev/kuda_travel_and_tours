@@ -10,6 +10,7 @@ import Stats1           from "@/components/blocks/stats/stats-1";
 import TestimonialsKuda from "@/components/blocks/testimonial/testimonials-kuda";
 import CtaForm          from "@/components/blocks/form/cta-form";
 import Faq1             from "@/components/blocks/faq/faq-1";
+import Tours1           from "@/components/blocks/tours/tours-1";
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 
@@ -21,6 +22,7 @@ const componentMap: Record<string, React.ComponentType<any>> = {
   "how-it-works":     HowItWorks,
   "stats-1":          Stats1,
   "testimonials-kuda": TestimonialsKuda,
+  "tours-1":          Tours1,
   "cta-form":         CtaForm,
   "faq-1":            Faq1,
 };

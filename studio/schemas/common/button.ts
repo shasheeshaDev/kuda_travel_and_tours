@@ -1,20 +1,11 @@
 import { defineField, defineType } from "sanity";
-import { ICON_VARIANTS } from "./icon-variants";
+import { PAGE_SECTIONS } from "./page-sections";
 
 export default defineType({
   name: "button",
   type: "object",
   title: "Button",
   fields: [
-    // defineField({
-    //   name: "iconVariant",
-    //   type: "string",
-    //   title: "Icon Variant",
-    //   options: {
-    //     list: ICON_VARIANTS.map(({ title, value }) => ({ title, value })),
-    //   },
-    //   initialValue: "none",
-    // }),
     defineField({
       name: "buttonVariant",
       type: "button-variant",
@@ -26,11 +17,11 @@ export default defineType({
       title: "Button Size",
       initialValue: "sm",
       options: {
-        list:[
-        {title: "Large", value: "lg"},
-        {title: "Small", value: "sm"},
-      ],
-      layout: "radio"
+        list: [
+          { title: "Large", value: "lg" },
+          { title: "Small", value: "sm" },
+        ],
+        layout: "radio",
       },
       hidden: ({ parent }) => !["primary", "secondary"].includes(parent?.buttonVariant),
     }),
@@ -40,26 +31,31 @@ export default defineType({
       title: "Is External",
       initialValue: false,
     }),
+
+    // ── Internal link ─────────────────────────────────────────────────────
     defineField({
       name: "internalLink",
       type: "reference",
-      title: "Internal Link",
+      title: "Page",
       to: [{ type: "page" }, { type: "post" }],
       hidden: ({ parent }) => parent?.isExternal,
     }),
     defineField({
-      name: "label",
-      title: "Button Label",
+      name: "anchor",
       type: "string",
+      title: "Page Section",
+      description: "Scroll directly to a specific section on the target page.",
+      options: {
+        list: PAGE_SECTIONS.map(({ title, value }) => ({ title, value })),
+        layout: "dropdown",
+      },
+      hidden: ({ parent }) => parent?.isExternal === true,
     }),
-    defineField({
-      name: "description",
-      type: "text",
-      description: "The description of the link. Used for navigation items.",
-    }),
+
+    // ── External link ─────────────────────────────────────────────────────
     defineField({
       name: "href",
-      title: "href",
+      title: "URL",
       type: "url",
       hidden: ({ parent }) => !parent?.isExternal,
       validation: (Rule) =>
@@ -73,6 +69,18 @@ export default defineType({
       type: "boolean",
       title: "Open in new tab",
       hidden: ({ parent }) => !parent?.isExternal,
+    }),
+
+    // ── Common ────────────────────────────────────────────────────────────
+    defineField({
+      name: "label",
+      title: "Button Label",
+      type: "string",
+    }),
+    defineField({
+      name: "description",
+      type: "text",
+      description: "The description of the link. Used for navigation items.",
     }),
   ],
 });

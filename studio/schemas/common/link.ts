@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { PAGE_SECTIONS } from "./page-sections";
 
 export default defineType({
   name: "link-with-label",
@@ -11,21 +12,31 @@ export default defineType({
       title: "Is External",
       initialValue: false,
     }),
+
+    // ── Internal link ─────────────────────────────────────────────────────
     defineField({
       name: "internalLink",
       type: "reference",
-      title: "Internal Link",
+      title: "Page",
       to: [{ type: "page" }, { type: "post" }],
       hidden: ({ parent }) => parent?.isExternal,
     }),
     defineField({
-      name: "label",
-      title: "Link Label",
+      name: "anchor",
       type: "string",
+      title: "Page Section",
+      description: "Scroll directly to a specific section on the target page.",
+      options: {
+        list: PAGE_SECTIONS.map(({ title, value }) => ({ title, value })),
+        layout: "dropdown",
+      },
+      hidden: ({ parent }) => parent?.isExternal === true,
     }),
+
+    // ── External link ─────────────────────────────────────────────────────
     defineField({
       name: "href",
-      title: "href",
+      title: "URL",
       type: "url",
       hidden: ({ parent }) => !parent?.isExternal,
       validation: (Rule) =>
@@ -40,6 +51,13 @@ export default defineType({
       title: "Open in new tab",
       initialValue: false,
       hidden: ({ parent }) => !parent?.isExternal,
+    }),
+
+    // ── Common ────────────────────────────────────────────────────────────
+    defineField({
+      name: "label",
+      title: "Link Label",
+      type: "string",
     }),
   ],
 });

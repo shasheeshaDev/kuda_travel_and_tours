@@ -13,6 +13,27 @@
  */
 
 // Source: schema.json
+export type Tours1 = {
+  _type: "tours-1";
+  padding?: SectionPadding;
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  tabs?: Array<{
+    label?: string;
+    tours?: Array<{
+      emoji?: string;
+      title?: string;
+      meta?: string;
+      _type: "tourItem";
+      _key: string;
+    }>;
+    _type: "tourTab";
+    _key: string;
+  }>;
+  ctaButton?: Button;
+};
+
 export type Faq1 = {
   _type: "faq-1";
   padding?: SectionPadding;
@@ -489,10 +510,11 @@ export type Button = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "post";
   };
-  label?: string;
-  description?: string;
+  anchor?: "who" | "offer" | "tours" | "how" | "stats" | "testimonials" | "cta" | "faq";
   href?: string;
   target?: boolean;
+  label?: string;
+  description?: string;
 };
 
 export type BlockContent = Array<{
@@ -658,9 +680,10 @@ export type LinkWithLabel = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "post";
   };
-  label?: string;
+  anchor?: "who" | "offer" | "tours" | "how" | "stats" | "testimonials" | "cta" | "faq";
   href?: string;
   target?: boolean;
+  label?: string;
 };
 
 export type Settings = {
@@ -670,19 +693,6 @@ export type Settings = {
   _updatedAt: string;
   _rev: string;
   logo?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  footerLogo?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -708,7 +718,7 @@ export type Footer = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  background?: {
+  footerLogo?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -722,10 +732,7 @@ export type Footer = {
     _type: "image";
   };
   description?: string;
-  socialMediaLinks?: SocialMediaLinks;
   links?: Array<{
-    _key: string;
-  } & LinkWithLabel | {
     _key: string;
   } & LinkGroup>;
 };
@@ -939,6 +946,8 @@ export type Page = {
     _key: string;
   } & TestimonialsKuda | {
     _key: string;
+  } & Tours1 | {
+    _key: string;
   } & CtaForm | {
     _key: string;
   } & Faq1>;
@@ -1097,11 +1106,11 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = Faq1 | CtaForm | TestimonialsKuda | Stats1 | HowItWorks | ServicesGrid | WhoWeAre | TrustStrip | HeroKuda | FormField | Form | FormSheet | FormConfig | OrderedList | UnorderedList | ContactLinkBlock | TagBlock | ButtonGroupBlock | BodyBlock | IntroContentBlock | HeadingBlock | ColumnBuilder | SectionPadding | ButtonVariant | SocialMediaLinks | LinkGroup | ButtonGroup | Button | BlockContent | Background | Video | IntroContent | Banner | LinkWithLabel | Settings | Footer | Header | Testimonial | Faq | Category | Collection | Post | Author | Page | MediaTag | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = Tours1 | Faq1 | CtaForm | TestimonialsKuda | Stats1 | HowItWorks | ServicesGrid | WhoWeAre | TrustStrip | HeroKuda | FormField | Form | FormSheet | FormConfig | OrderedList | UnorderedList | ContactLinkBlock | TagBlock | ButtonGroupBlock | BodyBlock | IntroContentBlock | HeadingBlock | ColumnBuilder | SectionPadding | ButtonVariant | SocialMediaLinks | LinkGroup | ButtonGroup | Button | BlockContent | Background | Video | IntroContent | Banner | LinkWithLabel | Settings | Footer | Header | Testimonial | Faq | Category | Collection | Post | Author | Page | MediaTag | Code | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../frontend/sanity/queries/banner.ts
 // Variable: BANNER_QUERY
-// Query: *[_type == "banner"]{    _type,    _key,    title,    description,    link{          _key,    ...,    "href": select(      isExternal => href,      @.internalLink->slug.current == "index" => "/",      @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,      "/" + @.internalLink->slug.current    ),    }  }
+// Query: *[_type == "banner"]{    _type,    _key,    title,    description,    link{          _key,    ...,    "href": select(      isExternal                                                                         => href,      defined(anchor) && @.internalLink->slug.current == "index"                        => "/#" + anchor,      defined(anchor) && defined(@.internalLink->slug.current)                          => "/" + @.internalLink->slug.current + "#" + anchor,      defined(anchor)                                                                    => "/#" + anchor,      @.internalLink->slug.current == "index"                                           => "/",      @.internalLink->_type == "post"                                                   => "/blog/" + @.internalLink->slug.current,      defined(@.internalLink->slug.current)                                             => "/" + @.internalLink->slug.current,      null    ),    }  }
 export type BANNER_QUERYResult = Array<{
   _type: "banner";
   _key: null;
@@ -1122,36 +1131,23 @@ export type BANNER_QUERYResult = Array<{
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "post";
     };
-    label?: string;
-    href: string | "/" | null;
+    anchor?: "cta" | "faq" | "how" | "offer" | "stats" | "testimonials" | "tours" | "who";
+    href: string | "/" | null | "/#cta" | "/#faq" | "/#how" | "/#offer" | "/#stats" | "/#testimonials" | "/#tours" | "/#who";
     target?: boolean;
+    label?: string;
   } | null;
 }>;
 
 // Source: ../frontend/sanity/queries/contact.ts
 // Variable: CONTACT_QUERY
-// Query: *[_type == "contact"][0]{  tagline,  title,  description,  contactMethods[]{    icon,    title,    description,    link {          _key,    ...,    "href": select(      isExternal => href,      @.internalLink->slug.current == "index" => "/",      @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,      "/" + @.internalLink->slug.current    )    }  },    meta{    title,    description,    noindex,    image{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    }  },}
+// Query: *[_type == "contact"][0]{  tagline,  title,  description,  contactMethods[]{    icon,    title,    description,    link {          _key,    ...,    "href": select(      isExternal                                                                         => href,      defined(anchor) && @.internalLink->slug.current == "index"                        => "/#" + anchor,      defined(anchor) && defined(@.internalLink->slug.current)                          => "/" + @.internalLink->slug.current + "#" + anchor,      defined(anchor)                                                                    => "/#" + anchor,      @.internalLink->slug.current == "index"                                           => "/",      @.internalLink->_type == "post"                                                   => "/blog/" + @.internalLink->slug.current,      defined(@.internalLink->slug.current)                                             => "/" + @.internalLink->slug.current,      null    )    }  },    meta{    title,    description,    noindex,    image{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    }  },}
 export type CONTACT_QUERYResult = null;
 
 // Source: ../frontend/sanity/queries/footer.ts
 // Variable: FOOTER_QUERY
-// Query: *[_type == "footer"][0]{    _type,    description,    background,    "footerLogo": *[_type == "settings"][0].footerLogo{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    },      socialMediaLinks[]{    _key,    platform,    url  },    links[]{          _key,    ...,    "href": select(      isExternal => href,      @.internalLink->slug.current == "index" => "/",      @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,      "/" + @.internalLink->slug.current    ),      title,      _type == "link-group" => {        links[]{              _key,    ...,    "href": select(      isExternal => href,      @.internalLink->slug.current == "index" => "/",      @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,      "/" + @.internalLink->slug.current    )        }      }    },    bottomLinks[]{          _key,    ...,    "href": select(      isExternal => href,      @.internalLink->slug.current == "index" => "/",      @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,      "/" + @.internalLink->slug.current    )    },  }
+// Query: *[_type == "footer"][0]{    _type,    footerLogo{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    },    description,    links[]{          _key,    ...,    "href": select(      isExternal                                                                         => href,      defined(anchor) && @.internalLink->slug.current == "index"                        => "/#" + anchor,      defined(anchor) && defined(@.internalLink->slug.current)                          => "/" + @.internalLink->slug.current + "#" + anchor,      defined(anchor)                                                                    => "/#" + anchor,      @.internalLink->slug.current == "index"                                           => "/",      @.internalLink->_type == "post"                                                   => "/blog/" + @.internalLink->slug.current,      defined(@.internalLink->slug.current)                                             => "/" + @.internalLink->slug.current,      null    ),      title,      _type == "link-group" => {        links[]{              _key,    ...,    "href": select(      isExternal                                                                         => href,      defined(anchor) && @.internalLink->slug.current == "index"                        => "/#" + anchor,      defined(anchor) && defined(@.internalLink->slug.current)                          => "/" + @.internalLink->slug.current + "#" + anchor,      defined(anchor)                                                                    => "/#" + anchor,      @.internalLink->slug.current == "index"                                           => "/",      @.internalLink->_type == "post"                                                   => "/blog/" + @.internalLink->slug.current,      defined(@.internalLink->slug.current)                                             => "/" + @.internalLink->slug.current,      null    )        }      }    },  }
 export type FOOTER_QUERYResult = {
   _type: "footer";
-  description: string | null;
-  background: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  } | null;
   footerLogo: {
     asset: {
       _id: string;
@@ -1171,11 +1167,7 @@ export type FOOTER_QUERYResult = {
     alt: string | null;
     _type: "image";
   } | null;
-  socialMediaLinks: Array<{
-    _key: string;
-    platform: "dribbble" | "facebook" | "github" | "globe" | "instagram" | "linkedin" | "twitter" | "youtube" | null;
-    url: string | null;
-  }> | null;
+  description: string | null;
   links: Array<{
     _key: string;
     _type: "link-group";
@@ -1195,39 +1187,40 @@ export type FOOTER_QUERYResult = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "post";
       };
-      label?: string;
-      href: string | "/" | null;
+      anchor?: "cta" | "faq" | "how" | "offer" | "stats" | "testimonials" | "tours" | "who";
+      href: string | "/" | null | "/#cta" | "/#faq" | "/#how" | "/#offer" | "/#stats" | "/#testimonials" | "/#tours" | "/#who";
       target?: boolean;
+      label?: string;
     }> | null;
     href: null;
-  } | {
-    _key: string;
-    _type: "link-with-label";
-    isExternal?: boolean;
-    internalLink?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "page";
-    } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "post";
-    };
-    label?: string;
-    href: string | "/" | null;
-    target?: boolean;
-    title: null;
   }> | null;
-  bottomLinks: null;
 } | null;
 
 // Source: ../frontend/sanity/queries/header.ts
 // Variable: HEADER_QUERY
-// Query: *[_type == "header"][0]{    _type,    links[]{          _key,    ...,    "href": select(      isExternal => href,      @.internalLink->slug.current == "index" => "/",      @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,      "/" + @.internalLink->slug.current    ),      _type == "link-group" => {        links[]{              _key,    ...,    "href": select(      isExternal => href,      @.internalLink->slug.current == "index" => "/",      @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,      "/" + @.internalLink->slug.current    )        }      }    },    ctaLinks[]{          _key,    ...,    "href": select(      isExternal => href,      @.internalLink->slug.current == "index" => "/",      @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,      "/" + @.internalLink->slug.current    )    },  }
+// Query: *[_type == "header"][0]{    _type,    "logo": *[_type == "settings"][0].logo{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    },    "siteName": *[_type == "settings"][0].siteName,    links[]{          _key,    ...,    "href": select(      isExternal                                                                         => href,      defined(anchor) && @.internalLink->slug.current == "index"                        => "/#" + anchor,      defined(anchor) && defined(@.internalLink->slug.current)                          => "/" + @.internalLink->slug.current + "#" + anchor,      defined(anchor)                                                                    => "/#" + anchor,      @.internalLink->slug.current == "index"                                           => "/",      @.internalLink->_type == "post"                                                   => "/blog/" + @.internalLink->slug.current,      defined(@.internalLink->slug.current)                                             => "/" + @.internalLink->slug.current,      null    ),      _type == "link-group" => {        links[]{              _key,    ...,    "href": select(      isExternal                                                                         => href,      defined(anchor) && @.internalLink->slug.current == "index"                        => "/#" + anchor,      defined(anchor) && defined(@.internalLink->slug.current)                          => "/" + @.internalLink->slug.current + "#" + anchor,      defined(anchor)                                                                    => "/#" + anchor,      @.internalLink->slug.current == "index"                                           => "/",      @.internalLink->_type == "post"                                                   => "/blog/" + @.internalLink->slug.current,      defined(@.internalLink->slug.current)                                             => "/" + @.internalLink->slug.current,      null    )        }      }    },    ctaLinks[]{          _key,    ...,    "href": select(      isExternal                                                                         => href,      defined(anchor) && @.internalLink->slug.current == "index"                        => "/#" + anchor,      defined(anchor) && defined(@.internalLink->slug.current)                          => "/" + @.internalLink->slug.current + "#" + anchor,      defined(anchor)                                                                    => "/#" + anchor,      @.internalLink->slug.current == "index"                                           => "/",      @.internalLink->_type == "post"                                                   => "/blog/" + @.internalLink->slug.current,      defined(@.internalLink->slug.current)                                             => "/" + @.internalLink->slug.current,      null    )    },  }
 export type HEADER_QUERYResult = {
   _type: "header";
+  logo: {
+    asset: {
+      _id: string;
+      url: string | null;
+      mimeType: string | null;
+      metadata: {
+        lqip: string | null;
+        dimensions: {
+          width: number | null;
+          height: number | null;
+        } | null;
+      } | null;
+    } | null;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string | null;
+    _type: "image";
+  } | null;
+  siteName: string | null;
   links: Array<{
     _key: string;
     _type: "link-group";
@@ -1247,9 +1240,10 @@ export type HEADER_QUERYResult = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "post";
       };
-      label?: string;
-      href: string | "/" | null;
+      anchor?: "cta" | "faq" | "how" | "offer" | "stats" | "testimonials" | "tours" | "who";
+      href: string | "/" | null | "/#cta" | "/#faq" | "/#how" | "/#offer" | "/#stats" | "/#testimonials" | "/#tours" | "/#who";
       target?: boolean;
+      label?: string;
     }> | null;
     href: null;
   } | {
@@ -1267,9 +1261,10 @@ export type HEADER_QUERYResult = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "post";
     };
-    label?: string;
-    href: string | "/" | null;
+    anchor?: "cta" | "faq" | "how" | "offer" | "stats" | "testimonials" | "tours" | "who";
+    href: string | "/" | null | "/#cta" | "/#faq" | "/#how" | "/#offer" | "/#stats" | "/#testimonials" | "/#tours" | "/#who";
     target?: boolean;
+    label?: string;
   }> | null;
   ctaLinks: Array<{
     _key: string;
@@ -1288,16 +1283,17 @@ export type HEADER_QUERYResult = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "post";
     };
+    anchor?: "cta" | "faq" | "how" | "offer" | "stats" | "testimonials" | "tours" | "who";
+    href: string | "/" | null | "/#cta" | "/#faq" | "/#how" | "/#offer" | "/#stats" | "/#testimonials" | "/#tours" | "/#who";
+    target?: boolean;
     label?: string;
     description?: string;
-    href: string | "/" | null;
-    target?: boolean;
   }> | null;
 } | null;
 
 // Source: ../frontend/sanity/queries/page.ts
 // Variable: PAGE_QUERY
-// Query: *[_type == "page" && slug.current == $slug][0]{    title,    slug,    isGlobalBanner,    bannerImage{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    },    bannerContent{      eyebrowHeading,      heading,      description    },    isPrefooterCta,    blocks[]{        _type == "hero-kuda" => {    _type,    _key,    eyebrow,    heading,    description,    primaryButton {        _key,  isExternal,  label,  description,  buttonVariant,  target,      _key,    ...,    "href": select(      isExternal => href,      @.internalLink->slug.current == "index" => "/",      @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,      "/" + @.internalLink->slug.current    )    },    secondaryButton {        _key,  isExternal,  label,  description,  buttonVariant,  target,      _key,    ...,    "href": select(      isExternal => href,      @.internalLink->slug.current == "index" => "/",      @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,      "/" + @.internalLink->slug.current    )    },  },        _type == "trust-strip" => {    _type,    _key,    label,    items[] {      _key,      text,    },  },        _type == "who-we-are" => {    _type,    _key,    eyebrow,    heading,    description,    checkItems[] {      _key,      text,    },  },        _type == "services-grid" => {    _type,    _key,    eyebrow,    heading,    description,    services[] {      _key,      iconKey,      title,      description,    },  },        _type == "how-it-works" => {    _type,    _key,    eyebrow,    heading,    description,    ctaButton {        _key,  isExternal,  label,  description,  buttonVariant,  target,      _key,    ...,    "href": select(      isExternal => href,      @.internalLink->slug.current == "index" => "/",      @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,      "/" + @.internalLink->slug.current    )    },    steps[] {      _key,      title,      description,    },  },        _type == "stats-1" => {    _type,    _key,    headline,    stats[] {      _key,      value,      label,    },  },        _type == "testimonials-kuda" => {    _type,    _key,    eyebrow,    heading,    testimonials[]-> {      _id,      name,      title,      quote,      avatar {          ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }      },    },  },        _type == "cta-form" => {    _type,    _key,    eyebrow,    heading,    description,    form {      selectedFormConfig ->{        ...      },      selectedFormSheet ->{        ...      }    }  },        _type == "faq-1" => {    _type,    _key,    eyebrow,    heading,    description,    contactEmail,    faqs[] {      _key,      question,      answer,    },  },    },      meta{    title,    description,    noindex,    image{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    }  },  }
+// Query: *[_type == "page" && slug.current == $slug][0]{    title,    slug,    isGlobalBanner,    bannerImage{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    },    bannerContent{      eyebrowHeading,      heading,      description    },    isPrefooterCta,    blocks[]{        _type == "hero-kuda" => {    _type,    _key,    eyebrow,    heading,    description,    primaryButton {        _key,  isExternal,  label,  description,  buttonVariant,  target,      _key,    ...,    "href": select(      isExternal                                                                         => href,      defined(anchor) && @.internalLink->slug.current == "index"                        => "/#" + anchor,      defined(anchor) && defined(@.internalLink->slug.current)                          => "/" + @.internalLink->slug.current + "#" + anchor,      defined(anchor)                                                                    => "/#" + anchor,      @.internalLink->slug.current == "index"                                           => "/",      @.internalLink->_type == "post"                                                   => "/blog/" + @.internalLink->slug.current,      defined(@.internalLink->slug.current)                                             => "/" + @.internalLink->slug.current,      null    )    },    secondaryButton {        _key,  isExternal,  label,  description,  buttonVariant,  target,      _key,    ...,    "href": select(      isExternal                                                                         => href,      defined(anchor) && @.internalLink->slug.current == "index"                        => "/#" + anchor,      defined(anchor) && defined(@.internalLink->slug.current)                          => "/" + @.internalLink->slug.current + "#" + anchor,      defined(anchor)                                                                    => "/#" + anchor,      @.internalLink->slug.current == "index"                                           => "/",      @.internalLink->_type == "post"                                                   => "/blog/" + @.internalLink->slug.current,      defined(@.internalLink->slug.current)                                             => "/" + @.internalLink->slug.current,      null    )    },  },        _type == "trust-strip" => {    _type,    _key,    label,    items[] {      _key,      text,    },  },        _type == "who-we-are" => {    _type,    _key,    eyebrow,    heading,    description,    checkItems[] {      _key,      text,    },  },        _type == "services-grid" => {    _type,    _key,    eyebrow,    heading,    description,    services[] {      _key,      iconKey,      title,      description,    },  },        _type == "how-it-works" => {    _type,    _key,    eyebrow,    heading,    description,    ctaButton {        _key,  isExternal,  label,  description,  buttonVariant,  target,      _key,    ...,    "href": select(      isExternal                                                                         => href,      defined(anchor) && @.internalLink->slug.current == "index"                        => "/#" + anchor,      defined(anchor) && defined(@.internalLink->slug.current)                          => "/" + @.internalLink->slug.current + "#" + anchor,      defined(anchor)                                                                    => "/#" + anchor,      @.internalLink->slug.current == "index"                                           => "/",      @.internalLink->_type == "post"                                                   => "/blog/" + @.internalLink->slug.current,      defined(@.internalLink->slug.current)                                             => "/" + @.internalLink->slug.current,      null    )    },    steps[] {      _key,      title,      description,    },  },        _type == "stats-1" => {    _type,    _key,    headline,    stats[] {      _key,      value,      label,    },  },        _type == "testimonials-kuda" => {    _type,    _key,    eyebrow,    heading,    testimonials[]-> {      _id,      name,      title,      quote,      avatar {          ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }      },    },  },        _type == "tours-1" => {    _type,    _key,    eyebrow,    heading,    description,    tabs[] {      _key,      label,      tours[] {        _key,        emoji,        title,        meta,      },    },    ctaButton {        _key,  isExternal,  label,  description,  buttonVariant,  target,      _key,    ...,    "href": select(      isExternal                                                                         => href,      defined(anchor) && @.internalLink->slug.current == "index"                        => "/#" + anchor,      defined(anchor) && defined(@.internalLink->slug.current)                          => "/" + @.internalLink->slug.current + "#" + anchor,      defined(anchor)                                                                    => "/#" + anchor,      @.internalLink->slug.current == "index"                                           => "/",      @.internalLink->_type == "post"                                                   => "/blog/" + @.internalLink->slug.current,      defined(@.internalLink->slug.current)                                             => "/" + @.internalLink->slug.current,      null    )    },  },        _type == "cta-form" => {    _type,    _key,    eyebrow,    heading,    description,    form {      selectedFormConfig ->{        ...      },      selectedFormSheet ->{        ...      }    }  },        _type == "faq-1" => {    _type,    _key,    eyebrow,    heading,    description,    contactEmail,    faqs[] {      _key,      question,      answer,    },  },    },      meta{    title,    description,    noindex,    image{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    }  },  }
 export type PAGE_QUERYResult = {
   title: string | null;
   slug: Slug | null;
@@ -1409,7 +1405,8 @@ export type PAGE_QUERYResult = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "post";
       };
-      href: string | "/" | null;
+      anchor?: "cta" | "faq" | "how" | "offer" | "stats" | "testimonials" | "tours" | "who";
+      href: string | "/" | null | "/#cta" | "/#faq" | "/#how" | "/#offer" | "/#stats" | "/#testimonials" | "/#tours" | "/#who";
     } | null;
     secondaryButton: {
       _key: null;
@@ -1431,7 +1428,8 @@ export type PAGE_QUERYResult = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "post";
       };
-      href: string | "/" | null;
+      anchor?: "cta" | "faq" | "how" | "offer" | "stats" | "testimonials" | "tours" | "who";
+      href: string | "/" | null | "/#cta" | "/#faq" | "/#how" | "/#offer" | "/#stats" | "/#testimonials" | "/#tours" | "/#who";
     } | null;
   } | {
     _type: "how-it-works";
@@ -1459,7 +1457,8 @@ export type PAGE_QUERYResult = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "post";
       };
-      href: string | "/" | null;
+      anchor?: "cta" | "faq" | "how" | "offer" | "stats" | "testimonials" | "tours" | "who";
+      href: string | "/" | null | "/#cta" | "/#faq" | "/#how" | "/#offer" | "/#stats" | "/#testimonials" | "/#tours" | "/#who";
     } | null;
     steps: Array<{
       _key: string;
@@ -1518,6 +1517,45 @@ export type PAGE_QUERYResult = {
       } | null;
     }> | null;
   } | {
+    _type: "tours-1";
+    _key: string;
+    eyebrow: string | null;
+    heading: string | null;
+    description: string | null;
+    tabs: Array<{
+      _key: string;
+      label: string | null;
+      tours: Array<{
+        _key: string;
+        emoji: string | null;
+        title: string | null;
+        meta: string | null;
+      }> | null;
+    }> | null;
+    ctaButton: {
+      _key: null;
+      isExternal?: boolean;
+      label?: string;
+      description?: string;
+      buttonVariant?: ButtonVariant;
+      target?: boolean;
+      _type: "button";
+      buttonSize?: "lg" | "sm";
+      internalLink?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "page";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "post";
+      };
+      anchor?: "cta" | "faq" | "how" | "offer" | "stats" | "testimonials" | "tours" | "who";
+      href: string | "/" | null | "/#cta" | "/#faq" | "/#how" | "/#offer" | "/#stats" | "/#testimonials" | "/#tours" | "/#who";
+    } | null;
+  } | {
     _type: "trust-strip";
     _key: string;
     label: string | null;
@@ -1569,7 +1607,7 @@ export type PAGES_SLUGS_QUERYResult = Array<{
 
 // Source: ../frontend/sanity/queries/post.ts
 // Variable: POST_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0]{    title,    slug,    image{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    },    body[]{        ...,  markDefs[]{    ...,    _type == "link" => {          _key,    ...,    "href": select(      isExternal => href,      @.internalLink->slug.current == "index" => "/",      @.internalLink->_type == "post" => "/blog/" + @.internalLink->slug.current,      "/" + @.internalLink->slug.current    )    }  },  _type == "image" => {      ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }  }    },    author->{      name,      image {          ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }      }    },    _createdAt,    _updatedAt,      meta{    title,    description,    noindex,    image{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    }  },    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 ),}
+// Query: *[_type == "post" && slug.current == $slug][0]{    title,    slug,    image{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    },    body[]{        ...,  markDefs[]{    ...,    _type == "link" => {          _key,    ...,    "href": select(      isExternal                                                                         => href,      defined(anchor) && @.internalLink->slug.current == "index"                        => "/#" + anchor,      defined(anchor) && defined(@.internalLink->slug.current)                          => "/" + @.internalLink->slug.current + "#" + anchor,      defined(anchor)                                                                    => "/#" + anchor,      @.internalLink->slug.current == "index"                                           => "/",      @.internalLink->_type == "post"                                                   => "/blog/" + @.internalLink->slug.current,      defined(@.internalLink->slug.current)                                             => "/" + @.internalLink->slug.current,      null    )    }  },  _type == "image" => {      ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }  }    },    author->{      name,      image {          ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }      }    },    _createdAt,    _updatedAt,      meta{    title,    description,    noindex,    image{        ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }    }  },    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 ),}
 export type POST_QUERYResult = {
   title: string | null;
   slug: Slug | null;
@@ -1778,7 +1816,7 @@ export type POSTS_COUNT_QUERYResult = number;
 
 // Source: ../frontend/sanity/queries/settings.ts
 // Variable: SETTINGS_QUERY
-// Query: *[_type == "settings"][0]{  _type,  siteName,  phone,  whatsappNumber,  email,  address,  logo{      ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }  },  footerLogo{      ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }  }}
+// Query: *[_type == "settings"][0]{  _type,  siteName,  phone,  whatsappNumber,  email,  address,  logo{      ...,  alt,  asset->{    _id,    url,    mimeType,    metadata {      lqip,      dimensions {        width,        height      }    }  }  }}
 export type SETTINGS_QUERYResult = {
   _type: "settings";
   siteName: string | null;
@@ -1805,41 +1843,22 @@ export type SETTINGS_QUERYResult = {
     alt: string | null;
     _type: "image";
   } | null;
-  footerLogo: {
-    asset: {
-      _id: string;
-      url: string | null;
-      mimeType: string | null;
-      metadata: {
-        lqip: string | null;
-        dimensions: {
-          width: number | null;
-          height: number | null;
-        } | null;
-      } | null;
-    } | null;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt: string | null;
-    _type: "image";
-  } | null;
 } | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "\n  *[_type == \"banner\"]{\n    _type,\n    _key,\n    title,\n    description,\n    link{\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal => href,\n      @.internalLink->slug.current == \"index\" => \"/\",\n      @.internalLink->_type == \"post\" => \"/blog/\" + @.internalLink->slug.current,\n      \"/\" + @.internalLink->slug.current\n    )\n,\n    }\n  }\n": BANNER_QUERYResult;
-    "*[_type == \"contact\"][0]{\n  tagline,\n  title,\n  description,\n  contactMethods[]{\n    icon,\n    title,\n    description,\n    link {\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal => href,\n      @.internalLink->slug.current == \"index\" => \"/\",\n      @.internalLink->_type == \"post\" => \"/blog/\" + @.internalLink->slug.current,\n      \"/\" + @.internalLink->slug.current\n    )\n\n    }\n  },\n  \n  meta{\n    title,\n    description,\n    noindex,\n    image{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    }\n  }\n,\n}": CONTACT_QUERYResult;
-    "\n  *[_type == \"footer\"][0]{\n    _type,\n    description,\n    background,\n    \"footerLogo\": *[_type == \"settings\"][0].footerLogo{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    },\n    \n  socialMediaLinks[]{\n    _key,\n    platform,\n    url\n  }\n,\n    links[]{\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal => href,\n      @.internalLink->slug.current == \"index\" => \"/\",\n      @.internalLink->_type == \"post\" => \"/blog/\" + @.internalLink->slug.current,\n      \"/\" + @.internalLink->slug.current\n    )\n,\n      title,\n      _type == \"link-group\" => {\n        links[]{\n          \n    _key,\n    ...,\n    \"href\": select(\n      isExternal => href,\n      @.internalLink->slug.current == \"index\" => \"/\",\n      @.internalLink->_type == \"post\" => \"/blog/\" + @.internalLink->slug.current,\n      \"/\" + @.internalLink->slug.current\n    )\n\n        }\n      }\n    },\n    bottomLinks[]{\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal => href,\n      @.internalLink->slug.current == \"index\" => \"/\",\n      @.internalLink->_type == \"post\" => \"/blog/\" + @.internalLink->slug.current,\n      \"/\" + @.internalLink->slug.current\n    )\n\n    },\n  }\n": FOOTER_QUERYResult;
-    "\n  *[_type == \"header\"][0]{\n    _type,\n    links[]{\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal => href,\n      @.internalLink->slug.current == \"index\" => \"/\",\n      @.internalLink->_type == \"post\" => \"/blog/\" + @.internalLink->slug.current,\n      \"/\" + @.internalLink->slug.current\n    )\n,\n      _type == \"link-group\" => {\n        links[]{\n          \n    _key,\n    ...,\n    \"href\": select(\n      isExternal => href,\n      @.internalLink->slug.current == \"index\" => \"/\",\n      @.internalLink->_type == \"post\" => \"/blog/\" + @.internalLink->slug.current,\n      \"/\" + @.internalLink->slug.current\n    )\n\n        }\n      }\n    },\n    ctaLinks[]{\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal => href,\n      @.internalLink->slug.current == \"index\" => \"/\",\n      @.internalLink->_type == \"post\" => \"/blog/\" + @.internalLink->slug.current,\n      \"/\" + @.internalLink->slug.current\n    )\n\n    },\n  }\n": HEADER_QUERYResult;
-    "\n  *[_type == \"page\" && slug.current == $slug][0]{\n    title,\n    slug,\n    isGlobalBanner,\n    bannerImage{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    },\n    bannerContent{\n      eyebrowHeading,\n      heading,\n      description\n    },\n    isPrefooterCta,\n    blocks[]{\n      \n  _type == \"hero-kuda\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    primaryButton {\n      \n  _key,\n  isExternal,\n  label,\n  description,\n  buttonVariant,\n  target,\n  \n    _key,\n    ...,\n    \"href\": select(\n      isExternal => href,\n      @.internalLink->slug.current == \"index\" => \"/\",\n      @.internalLink->_type == \"post\" => \"/blog/\" + @.internalLink->slug.current,\n      \"/\" + @.internalLink->slug.current\n    )\n\n\n    },\n    secondaryButton {\n      \n  _key,\n  isExternal,\n  label,\n  description,\n  buttonVariant,\n  target,\n  \n    _key,\n    ...,\n    \"href\": select(\n      isExternal => href,\n      @.internalLink->slug.current == \"index\" => \"/\",\n      @.internalLink->_type == \"post\" => \"/blog/\" + @.internalLink->slug.current,\n      \"/\" + @.internalLink->slug.current\n    )\n\n\n    },\n  }\n,\n      \n  _type == \"trust-strip\" => {\n    _type,\n    _key,\n    label,\n    items[] {\n      _key,\n      text,\n    },\n  }\n,\n      \n  _type == \"who-we-are\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    checkItems[] {\n      _key,\n      text,\n    },\n  }\n,\n      \n  _type == \"services-grid\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    services[] {\n      _key,\n      iconKey,\n      title,\n      description,\n    },\n  }\n,\n      \n  _type == \"how-it-works\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    ctaButton {\n      \n  _key,\n  isExternal,\n  label,\n  description,\n  buttonVariant,\n  target,\n  \n    _key,\n    ...,\n    \"href\": select(\n      isExternal => href,\n      @.internalLink->slug.current == \"index\" => \"/\",\n      @.internalLink->_type == \"post\" => \"/blog/\" + @.internalLink->slug.current,\n      \"/\" + @.internalLink->slug.current\n    )\n\n\n    },\n    steps[] {\n      _key,\n      title,\n      description,\n    },\n  }\n,\n      \n  _type == \"stats-1\" => {\n    _type,\n    _key,\n    headline,\n    stats[] {\n      _key,\n      value,\n      label,\n    },\n  }\n,\n      \n  _type == \"testimonials-kuda\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    testimonials[]-> {\n      _id,\n      name,\n      title,\n      quote,\n      avatar {\n        \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n      },\n    },\n  }\n,\n      \n  _type == \"cta-form\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    form {\n      selectedFormConfig ->{\n        ...\n      },\n      selectedFormSheet ->{\n        ...\n      }\n    }\n  }\n,\n      \n  _type == \"faq-1\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    contactEmail,\n    faqs[] {\n      _key,\n      question,\n      answer,\n    },\n  }\n,\n    },\n    \n  meta{\n    title,\n    description,\n    noindex,\n    image{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    }\n  }\n,\n  }\n": PAGE_QUERYResult;
+    "\n  *[_type == \"banner\"]{\n    _type,\n    _key,\n    title,\n    description,\n    link{\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal                                                                         => href,\n      defined(anchor) && @.internalLink->slug.current == \"index\"                        => \"/#\" + anchor,\n      defined(anchor) && defined(@.internalLink->slug.current)                          => \"/\" + @.internalLink->slug.current + \"#\" + anchor,\n      defined(anchor)                                                                    => \"/#\" + anchor,\n      @.internalLink->slug.current == \"index\"                                           => \"/\",\n      @.internalLink->_type == \"post\"                                                   => \"/blog/\" + @.internalLink->slug.current,\n      defined(@.internalLink->slug.current)                                             => \"/\" + @.internalLink->slug.current,\n      null\n    )\n,\n    }\n  }\n": BANNER_QUERYResult;
+    "*[_type == \"contact\"][0]{\n  tagline,\n  title,\n  description,\n  contactMethods[]{\n    icon,\n    title,\n    description,\n    link {\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal                                                                         => href,\n      defined(anchor) && @.internalLink->slug.current == \"index\"                        => \"/#\" + anchor,\n      defined(anchor) && defined(@.internalLink->slug.current)                          => \"/\" + @.internalLink->slug.current + \"#\" + anchor,\n      defined(anchor)                                                                    => \"/#\" + anchor,\n      @.internalLink->slug.current == \"index\"                                           => \"/\",\n      @.internalLink->_type == \"post\"                                                   => \"/blog/\" + @.internalLink->slug.current,\n      defined(@.internalLink->slug.current)                                             => \"/\" + @.internalLink->slug.current,\n      null\n    )\n\n    }\n  },\n  \n  meta{\n    title,\n    description,\n    noindex,\n    image{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    }\n  }\n,\n}": CONTACT_QUERYResult;
+    "\n  *[_type == \"footer\"][0]{\n    _type,\n    footerLogo{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    },\n    description,\n    links[]{\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal                                                                         => href,\n      defined(anchor) && @.internalLink->slug.current == \"index\"                        => \"/#\" + anchor,\n      defined(anchor) && defined(@.internalLink->slug.current)                          => \"/\" + @.internalLink->slug.current + \"#\" + anchor,\n      defined(anchor)                                                                    => \"/#\" + anchor,\n      @.internalLink->slug.current == \"index\"                                           => \"/\",\n      @.internalLink->_type == \"post\"                                                   => \"/blog/\" + @.internalLink->slug.current,\n      defined(@.internalLink->slug.current)                                             => \"/\" + @.internalLink->slug.current,\n      null\n    )\n,\n      title,\n      _type == \"link-group\" => {\n        links[]{\n          \n    _key,\n    ...,\n    \"href\": select(\n      isExternal                                                                         => href,\n      defined(anchor) && @.internalLink->slug.current == \"index\"                        => \"/#\" + anchor,\n      defined(anchor) && defined(@.internalLink->slug.current)                          => \"/\" + @.internalLink->slug.current + \"#\" + anchor,\n      defined(anchor)                                                                    => \"/#\" + anchor,\n      @.internalLink->slug.current == \"index\"                                           => \"/\",\n      @.internalLink->_type == \"post\"                                                   => \"/blog/\" + @.internalLink->slug.current,\n      defined(@.internalLink->slug.current)                                             => \"/\" + @.internalLink->slug.current,\n      null\n    )\n\n        }\n      }\n    },\n  }\n": FOOTER_QUERYResult;
+    "\n  *[_type == \"header\"][0]{\n    _type,\n    \"logo\": *[_type == \"settings\"][0].logo{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    },\n    \"siteName\": *[_type == \"settings\"][0].siteName,\n    links[]{\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal                                                                         => href,\n      defined(anchor) && @.internalLink->slug.current == \"index\"                        => \"/#\" + anchor,\n      defined(anchor) && defined(@.internalLink->slug.current)                          => \"/\" + @.internalLink->slug.current + \"#\" + anchor,\n      defined(anchor)                                                                    => \"/#\" + anchor,\n      @.internalLink->slug.current == \"index\"                                           => \"/\",\n      @.internalLink->_type == \"post\"                                                   => \"/blog/\" + @.internalLink->slug.current,\n      defined(@.internalLink->slug.current)                                             => \"/\" + @.internalLink->slug.current,\n      null\n    )\n,\n      _type == \"link-group\" => {\n        links[]{\n          \n    _key,\n    ...,\n    \"href\": select(\n      isExternal                                                                         => href,\n      defined(anchor) && @.internalLink->slug.current == \"index\"                        => \"/#\" + anchor,\n      defined(anchor) && defined(@.internalLink->slug.current)                          => \"/\" + @.internalLink->slug.current + \"#\" + anchor,\n      defined(anchor)                                                                    => \"/#\" + anchor,\n      @.internalLink->slug.current == \"index\"                                           => \"/\",\n      @.internalLink->_type == \"post\"                                                   => \"/blog/\" + @.internalLink->slug.current,\n      defined(@.internalLink->slug.current)                                             => \"/\" + @.internalLink->slug.current,\n      null\n    )\n\n        }\n      }\n    },\n    ctaLinks[]{\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal                                                                         => href,\n      defined(anchor) && @.internalLink->slug.current == \"index\"                        => \"/#\" + anchor,\n      defined(anchor) && defined(@.internalLink->slug.current)                          => \"/\" + @.internalLink->slug.current + \"#\" + anchor,\n      defined(anchor)                                                                    => \"/#\" + anchor,\n      @.internalLink->slug.current == \"index\"                                           => \"/\",\n      @.internalLink->_type == \"post\"                                                   => \"/blog/\" + @.internalLink->slug.current,\n      defined(@.internalLink->slug.current)                                             => \"/\" + @.internalLink->slug.current,\n      null\n    )\n\n    },\n  }\n": HEADER_QUERYResult;
+    "\n  *[_type == \"page\" && slug.current == $slug][0]{\n    title,\n    slug,\n    isGlobalBanner,\n    bannerImage{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    },\n    bannerContent{\n      eyebrowHeading,\n      heading,\n      description\n    },\n    isPrefooterCta,\n    blocks[]{\n      \n  _type == \"hero-kuda\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    primaryButton {\n      \n  _key,\n  isExternal,\n  label,\n  description,\n  buttonVariant,\n  target,\n  \n    _key,\n    ...,\n    \"href\": select(\n      isExternal                                                                         => href,\n      defined(anchor) && @.internalLink->slug.current == \"index\"                        => \"/#\" + anchor,\n      defined(anchor) && defined(@.internalLink->slug.current)                          => \"/\" + @.internalLink->slug.current + \"#\" + anchor,\n      defined(anchor)                                                                    => \"/#\" + anchor,\n      @.internalLink->slug.current == \"index\"                                           => \"/\",\n      @.internalLink->_type == \"post\"                                                   => \"/blog/\" + @.internalLink->slug.current,\n      defined(@.internalLink->slug.current)                                             => \"/\" + @.internalLink->slug.current,\n      null\n    )\n\n\n    },\n    secondaryButton {\n      \n  _key,\n  isExternal,\n  label,\n  description,\n  buttonVariant,\n  target,\n  \n    _key,\n    ...,\n    \"href\": select(\n      isExternal                                                                         => href,\n      defined(anchor) && @.internalLink->slug.current == \"index\"                        => \"/#\" + anchor,\n      defined(anchor) && defined(@.internalLink->slug.current)                          => \"/\" + @.internalLink->slug.current + \"#\" + anchor,\n      defined(anchor)                                                                    => \"/#\" + anchor,\n      @.internalLink->slug.current == \"index\"                                           => \"/\",\n      @.internalLink->_type == \"post\"                                                   => \"/blog/\" + @.internalLink->slug.current,\n      defined(@.internalLink->slug.current)                                             => \"/\" + @.internalLink->slug.current,\n      null\n    )\n\n\n    },\n  }\n,\n      \n  _type == \"trust-strip\" => {\n    _type,\n    _key,\n    label,\n    items[] {\n      _key,\n      text,\n    },\n  }\n,\n      \n  _type == \"who-we-are\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    checkItems[] {\n      _key,\n      text,\n    },\n  }\n,\n      \n  _type == \"services-grid\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    services[] {\n      _key,\n      iconKey,\n      title,\n      description,\n    },\n  }\n,\n      \n  _type == \"how-it-works\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    ctaButton {\n      \n  _key,\n  isExternal,\n  label,\n  description,\n  buttonVariant,\n  target,\n  \n    _key,\n    ...,\n    \"href\": select(\n      isExternal                                                                         => href,\n      defined(anchor) && @.internalLink->slug.current == \"index\"                        => \"/#\" + anchor,\n      defined(anchor) && defined(@.internalLink->slug.current)                          => \"/\" + @.internalLink->slug.current + \"#\" + anchor,\n      defined(anchor)                                                                    => \"/#\" + anchor,\n      @.internalLink->slug.current == \"index\"                                           => \"/\",\n      @.internalLink->_type == \"post\"                                                   => \"/blog/\" + @.internalLink->slug.current,\n      defined(@.internalLink->slug.current)                                             => \"/\" + @.internalLink->slug.current,\n      null\n    )\n\n\n    },\n    steps[] {\n      _key,\n      title,\n      description,\n    },\n  }\n,\n      \n  _type == \"stats-1\" => {\n    _type,\n    _key,\n    headline,\n    stats[] {\n      _key,\n      value,\n      label,\n    },\n  }\n,\n      \n  _type == \"testimonials-kuda\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    testimonials[]-> {\n      _id,\n      name,\n      title,\n      quote,\n      avatar {\n        \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n      },\n    },\n  }\n,\n      \n  _type == \"tours-1\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    tabs[] {\n      _key,\n      label,\n      tours[] {\n        _key,\n        emoji,\n        title,\n        meta,\n      },\n    },\n    ctaButton {\n      \n  _key,\n  isExternal,\n  label,\n  description,\n  buttonVariant,\n  target,\n  \n    _key,\n    ...,\n    \"href\": select(\n      isExternal                                                                         => href,\n      defined(anchor) && @.internalLink->slug.current == \"index\"                        => \"/#\" + anchor,\n      defined(anchor) && defined(@.internalLink->slug.current)                          => \"/\" + @.internalLink->slug.current + \"#\" + anchor,\n      defined(anchor)                                                                    => \"/#\" + anchor,\n      @.internalLink->slug.current == \"index\"                                           => \"/\",\n      @.internalLink->_type == \"post\"                                                   => \"/blog/\" + @.internalLink->slug.current,\n      defined(@.internalLink->slug.current)                                             => \"/\" + @.internalLink->slug.current,\n      null\n    )\n\n\n    },\n  }\n,\n      \n  _type == \"cta-form\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    form {\n      selectedFormConfig ->{\n        ...\n      },\n      selectedFormSheet ->{\n        ...\n      }\n    }\n  }\n,\n      \n  _type == \"faq-1\" => {\n    _type,\n    _key,\n    eyebrow,\n    heading,\n    description,\n    contactEmail,\n    faqs[] {\n      _key,\n      question,\n      answer,\n    },\n  }\n,\n    },\n    \n  meta{\n    title,\n    description,\n    noindex,\n    image{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    }\n  }\n,\n  }\n": PAGE_QUERYResult;
     "*[_type == \"page\" && defined(slug)]{slug}": PAGES_SLUGS_QUERYResult;
-    "*[_type == \"post\" && slug.current == $slug][0]{\n    title,\n    slug,\n    image{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    },\n    body[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == \"link\" => {\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal => href,\n      @.internalLink->slug.current == \"index\" => \"/\",\n      @.internalLink->_type == \"post\" => \"/blog/\" + @.internalLink->slug.current,\n      \"/\" + @.internalLink->slug.current\n    )\n\n    }\n  },\n  _type == \"image\" => {\n    \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n  }\n\n    },\n    author->{\n      name,\n      image {\n        \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n      }\n    },\n    _createdAt,\n    _updatedAt,\n    \n  meta{\n    title,\n    description,\n    noindex,\n    image{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    }\n  }\n,\n    \"estimatedReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n}": POST_QUERYResult;
+    "*[_type == \"post\" && slug.current == $slug][0]{\n    title,\n    slug,\n    image{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    },\n    body[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == \"link\" => {\n      \n    _key,\n    ...,\n    \"href\": select(\n      isExternal                                                                         => href,\n      defined(anchor) && @.internalLink->slug.current == \"index\"                        => \"/#\" + anchor,\n      defined(anchor) && defined(@.internalLink->slug.current)                          => \"/\" + @.internalLink->slug.current + \"#\" + anchor,\n      defined(anchor)                                                                    => \"/#\" + anchor,\n      @.internalLink->slug.current == \"index\"                                           => \"/\",\n      @.internalLink->_type == \"post\"                                                   => \"/blog/\" + @.internalLink->slug.current,\n      defined(@.internalLink->slug.current)                                             => \"/\" + @.internalLink->slug.current,\n      null\n    )\n\n    }\n  },\n  _type == \"image\" => {\n    \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n  }\n\n    },\n    author->{\n      name,\n      image {\n        \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n      }\n    },\n    _createdAt,\n    _updatedAt,\n    \n  meta{\n    title,\n    description,\n    noindex,\n    image{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    }\n  }\n,\n    \"estimatedReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n}": POST_QUERYResult;
     "*[_type == \"post\" && defined(slug)] | order(_createdAt desc)[$offset...$end]{\n    _id,\n    _createdAt,\n    title,\n    slug,\n    excerpt,\n    author->{\n      name,\n      title,\n      image {\n        \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n      }\n    },\n    image{\n      \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n    },\n    categories[]->{\n      _id,\n      title,\n    },\n}": POSTS_QUERYResult;
     "*[_type == \"post\" && defined(slug)]{slug}": POSTS_SLUGS_QUERYResult;
     "count(*[_type == \"post\"])": POSTS_COUNT_QUERYResult;
-    "*[_type == \"settings\"][0]{\n  _type,\n  siteName,\n  phone,\n  whatsappNumber,\n  email,\n  address,\n  logo{\n    \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n  },\n  footerLogo{\n    \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n  }\n}": SETTINGS_QUERYResult;
+    "*[_type == \"settings\"][0]{\n  _type,\n  siteName,\n  phone,\n  whatsappNumber,\n  email,\n  address,\n  logo{\n    \n  ...,\n  alt,\n  asset->{\n    _id,\n    url,\n    mimeType,\n    metadata {\n      lqip,\n      dimensions {\n        width,\n        height\n      }\n    }\n  }\n\n  }\n}": SETTINGS_QUERYResult;
   }
 }

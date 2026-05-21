@@ -8,12 +8,11 @@ export default defineType({
   icon: Menu,
   fields: [
     defineField({
-      name: "background",
+      name: "footerLogo",
       type: "image",
-      title: "Background Image",
-      options: {
-        hotspot: true,
-      },
+      title: "Footer Logo",
+      description: "Use the white/inverted version of the logo for the dark footer background.",
+      options: { hotspot: true },
       fields: [
         {
           name: "alt",
@@ -25,16 +24,15 @@ export default defineType({
     defineField({
       name: "description",
       type: "text",
-      title: "Description"
-    }),
-    defineField({
-      name: "socialMediaLinks",
-      type: "social-media-links",
+      title: "Brand Description",
+      description: "Short tagline shown below the footer logo.",
     }),
     defineField({
       name: "links",
       type: "array",
-      of: [{ type: "link-with-label" }, { type: "link-group" }],
+      title: "Link Columns",
+      description: "Add link groups to create columns (e.g. Services, Company).",
+      of: [{ type: "link-group" }],
     }),
     // defineField({
     //   name: "bottomLinks",

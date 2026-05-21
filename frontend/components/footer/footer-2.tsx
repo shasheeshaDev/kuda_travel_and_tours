@@ -1,5 +1,4 @@
 import { fetchSanitySettings, fetchSanityFooter } from "@/sanity/lib/fetch";
-import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import { FOOTER_QUERYResult, SETTINGS_QUERYResult } from "@/sanity.types";
 import FooterLink from "./footer-link";
@@ -8,7 +7,18 @@ export default async function Footer2() {
   const settings: SETTINGS_QUERYResult = await fetchSanitySettings();
   const footer: FOOTER_QUERYResult = await fetchSanityFooter();
 
-  const footerLinkCols = footer?.links?.filter((l) => l._type === "link-group") ?? [];
+  // Use footer's own logo first; fall back to the header logo from settings
+  const footerLogoUrl =
+    (footer as any)?.footerLogo?.asset?.url ??
+    settings?.logo?.asset?.url ??
+    null;
+  const footerLogoAlt =
+    (footer as any)?.footerLogo?.alt ??
+    settings?.logo?.alt ??
+    settings?.siteName ??
+    "Kuda Travel & Tours";
+
+  const footerLinkCols = (footer?.links ?? []).filter((l) => l._type === "link-group");
 
   return (
     <footer className="bg-brand-dark pt-16 pb-8">
@@ -16,14 +26,14 @@ export default async function Footer2() {
       <div className="max-w-[1160px] mx-auto px-10 max-lg:px-6 max-sm:px-4 grid grid-cols-[2fr_1fr_1fr_1fr] gap-12 mb-12 max-lg:grid-cols-2 max-lg:gap-9 max-sm:grid-cols-1 max-sm:gap-7">
         {/* Brand column */}
         <div>
-          {(settings?.footerLogo || settings?.logo) && (
+          {footerLogoUrl && (
             <Image
-              src={urlFor(settings.footerLogo ?? settings.logo!).url()}
-              alt={settings?.siteName || "Logo"}
-              width={120}
+              src={footerLogoUrl}
+              alt={footerLogoAlt}
+              width={150}
               height={44}
               className="h-11 w-auto object-contain mb-4"
-              style={{ filter: "brightness(0) invert(1)", opacity: 0.9 }}
+              unoptimized
             />
           )}
           {footer?.description && (

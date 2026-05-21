@@ -12,6 +12,7 @@ import { stats1Query }         from "./stats/stats-1";
 import { testimonialsKudaQuery } from "./testimonial/testimonials-kuda";
 import { ctaFormQuery }        from "./form/cta-form";
 import { faq1Query }           from "./faq/faq-1";
+import { tours1Query }         from "./tours/tours-1";
 
 export const PAGE_QUERY = groq`
   *[_type == "page" && slug.current == $slug][0]{
@@ -35,6 +36,7 @@ export const PAGE_QUERY = groq`
       ${howItWorksQuery},
       ${stats1Query},
       ${testimonialsKudaQuery},
+      ${tours1Query},
       ${ctaFormQuery},
       ${faq1Query},
     },

@@ -43,6 +43,7 @@ import stats1          from "./schemas/blocks/stats/stats-1";
 import testimonialsKuda from "./schemas/blocks/testimonial/testimonials-kuda";
 import ctaForm         from "./schemas/blocks/form/cta-form";
 import faq1            from "./schemas/blocks/faq/faq-1";
+import tours1          from "./schemas/blocks/tours/tours-1";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -61,6 +62,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
 
     // Kuda blocks
     heroKuda, trustStrip, whoWeAre, servicesGrid,
-    howItWorks, stats1, testimonialsKuda, ctaForm, faq1,
+    howItWorks, stats1, testimonialsKuda, ctaForm, faq1, tours1,
   ],
 };

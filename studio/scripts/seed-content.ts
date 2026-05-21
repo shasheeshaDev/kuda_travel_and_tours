@@ -37,13 +37,29 @@ const client: SanityClient = createClient({
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
-function link(key: string, label: string, href: string) {
+// Section link — internal reference to a page + anchor scroll target
+// pageRef is the _id of the target page document (e.g. "kuda-home")
+function sectionLink(key: string, label: string, pageRef: string, anchor: string) {
+  return {
+    _type: "link-with-label",
+    _key: key,
+    label,
+    isExternal: false,
+    internalLink: { _type: "reference", _ref: pageRef },
+    anchor,
+  };
+}
+
+// External URL link (used for tel:, mailto:, https: etc.)
+function externalLink(key: string, label: string, href: string) {
   return { _type: "link-with-label", _key: key, label, isExternal: true, href, target: false };
 }
 
-function linkGroup(key: string, title: string, links: ReturnType<typeof link>[]) {
+function linkGroup(key: string, title: string, links: (ReturnType<typeof sectionLink> | ReturnType<typeof externalLink>)[]) {
   return { _type: "link-group", _key: key, title, links };
 }
+
+const HOME_PAGE_REF = "kuda-home";
 
 async function upsert(doc: Record<string, unknown>) {
   const result = await client.createOrReplace(doc as any);
@@ -54,7 +70,7 @@ async function upsert(doc: Record<string, unknown>) {
 // ─── DOCUMENTS ───────────────────────────────────────────────────────────────
 
 const SETTINGS = {
-  _id: "kuda-settings",
+  _id: "settings",
   _type: "settings",
   siteName: "Kuda Travel & Tours",
   phone: "+94 77 123 4567",
@@ -64,14 +80,15 @@ const SETTINGS = {
 };
 
 const HEADER = {
-  _id: "kuda-header",
+  _id: "header",
   _type: "header",
   links: [
-    link("nav-about",    "About",    "#who"),
-    link("nav-services", "Services", "#offer"),
-    link("nav-process",  "Process",  "#how"),
-    link("nav-reviews",  "Reviews",  "#testimonials"),
-    link("nav-faq",      "FAQ",      "#faq"),
+    sectionLink("nav-about",    "About",    HOME_PAGE_REF, "who"),
+    sectionLink("nav-services", "Services", HOME_PAGE_REF, "offer"),
+    sectionLink("nav-tours",    "Tours",    HOME_PAGE_REF, "tours"),
+    sectionLink("nav-process",  "Process",  HOME_PAGE_REF, "how"),
+    sectionLink("nav-reviews",  "Reviews",  HOME_PAGE_REF, "testimonials"),
+    sectionLink("nav-faq",      "FAQ",      HOME_PAGE_REF, "faq"),
   ],
   ctaLinks: [
     {
@@ -80,32 +97,32 @@ const HEADER = {
       label: "Book a Tour",
       buttonVariant: "default",
       buttonSize: "sm",
-      isExternal: true,
-      href: "#cta",
-      target: false,
+      isExternal: false,
+      internalLink: { _type: "reference", _ref: HOME_PAGE_REF },
+      anchor: "cta",
     },
   ],
 };
 
 const FOOTER = {
-  _id: "kuda-footer",
+  _id: "footer",
   _type: "footer",
   description:
     "Sri Lanka's trusted travel & tour partner — expert drivers, custom itineraries, and seamless journeys island-wide.",
   links: [
     linkGroup("col-services", "Services", [
-      link("fl-day",     "Day Tours",         "#offer"),
-      link("fl-multi",   "Multi-Day Tours",   "#offer"),
-      link("fl-airport", "Airport Transfers", "#offer"),
-      link("fl-city",    "City Excursions",   "#offer"),
-      link("fl-group",   "Group Travel",      "#offer"),
-      link("fl-vehicle", "Vehicle Hire",      "#offer"),
+      sectionLink("fl-day",     "Day Tours",         HOME_PAGE_REF, "offer"),
+      sectionLink("fl-multi",   "Multi-Day Tours",   HOME_PAGE_REF, "offer"),
+      sectionLink("fl-airport", "Airport Transfers", HOME_PAGE_REF, "offer"),
+      sectionLink("fl-city",    "City Excursions",   HOME_PAGE_REF, "offer"),
+      sectionLink("fl-group",   "Group Travel",      HOME_PAGE_REF, "offer"),
+      sectionLink("fl-vehicle", "Vehicle Hire",      HOME_PAGE_REF, "offer"),
     ]),
     linkGroup("col-company", "Company", [
-      link("fc-about",   "About Us",     "#who"),
-      link("fc-how",     "How It Works", "#how"),
-      link("fc-reviews", "Reviews",      "#testimonials"),
-      link("fc-faq",     "FAQ",          "#faq"),
+      sectionLink("fc-about",   "About Us",     HOME_PAGE_REF, "who"),
+      sectionLink("fc-how",     "How It Works", HOME_PAGE_REF, "how"),
+      sectionLink("fc-reviews", "Reviews",      HOME_PAGE_REF, "testimonials"),
+      sectionLink("fc-faq",     "FAQ",          HOME_PAGE_REF, "faq"),
     ]),
   ],
 };
@@ -154,9 +171,10 @@ const TESTIMONIALS = [
 ];
 
 function buildHomePage(testimonialIds: string[]) {
+  // Button that scrolls to a section on the home page
   const btn = (
     label: string,
-    href: string,
+    anchor: string,
     variant: string = "default",
     size: string = "sm"
   ) => ({
@@ -164,9 +182,9 @@ function buildHomePage(testimonialIds: string[]) {
     label,
     buttonVariant: variant,
     buttonSize: size,
-    isExternal: true,
-    href,
-    target: false,
+    isExternal: false,
+    internalLink: { _type: "reference", _ref: HOME_PAGE_REF },
+    anchor,
   });
 
   return {
@@ -183,8 +201,8 @@ function buildHomePage(testimonialIds: string[]) {
         heading: "Your journey, perfectly planned.",
         description:
           "Comfortable vehicles, expert local drivers, and tailor-made itineraries — for day trips, island tours, and everything in between.",
-        primaryButton: btn("Plan Your Journey", "#cta", "default", "lg"),
-        secondaryButton: btn("See Services", "#offer", "outline", "lg"),
+        primaryButton: btn("Plan Your Journey", "cta", "default", "lg"),
+        secondaryButton: btn("See Services", "offer", "outline", "lg"),
       },
 
       // ── 2. TRUST STRIP ────────────────────────────────────────────────────
@@ -280,7 +298,7 @@ function buildHomePage(testimonialIds: string[]) {
         heading: "From enquiry to arrival in four easy steps.",
         description:
           "Getting on the road with Kuda is simple. We handle all the planning — you just enjoy the journey.",
-        ctaButton: btn("Start Planning", "#cta", "default", "sm"),
+        ctaButton: btn("Start Planning", "cta", "default", "sm"),
         steps: [
           {
             _key: "st-1",

@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kuda Travel & Tours</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #474546;
+      --primary-dark: #2d2b2c;
+      --text: #1a1819;
+      --muted: #767374;
+      --border: #e8e6e4;
+      --white: #ffffff;
+      --cream: #faf8f5;
+      --hero-bg: #edf0f5;
+      --sage-bg: #f0f4f1;
+      --accent-blue: #5a8fa8;
+      --accent-gold: #d4a853;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    /* ── UTILS ── */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 40px;
+      height: 68px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo img { height: 32px; display: block; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--text);
+      text-decoration: none; opacity: 0.75; transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-cta {
+      background: var(--primary); color: #fff;
+      padding: 10px 22px; border-radius: 6px;
+      font-size: 14px; font-weight: 600;
+      text-decoration: none; transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { background: var(--primary-dark); }
+
+    /* ── HERO ── */
+    #hero {
+      background: var(--hero-bg);
+      padding: 90px 0 0;
+      overflow: hidden;
+    }
+    .hero-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 40px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 40px; align-items: flex-end;
+    }
+    .hero-text { padding-bottom: 80px; }
+    .hero-text h1 {
+      font-size: clamp(36px, 4.5vw, 58px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .hero-text p {
+      font-size: 17px; color: var(--muted); font-weight: 400;
+      max-width: 420px; margin-bottom: 36px; line-height: 1.7;
+    }
+    .hero-actions { display: flex; gap: 16px; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 8px;
+      font-size: 15px; font-weight: 600;
+      text-decoration: none; transition: all 0.2s; cursor: pointer; border: none;
+    }
+    .btn-dark { background: var(--primary); color: #fff; }
+    .btn-dark:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .hero-visual { display: flex; justify-content: center; align-items: flex-end; }
+
+    /* Hero SVG illustration */
+    .hero-illustration { width: 100%; max-width: 440px; }
+
+    /* ── TRUST STRIP ── */
+    .trust-strip {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+    .trust-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 40px;
+      display: flex; align-items: center; gap: 40px;
+    }
+    .trust-label { font-size: 13px; color: var(--muted); font-weight: 500; white-space: nowrap; }
+    .trust-items { display: flex; gap: 32px; align-items: center; flex-wrap: wrap; }
+    .trust-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; color: var(--text);
+    }
+    .trust-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-blue); }
+
+    /* ── SECTION COMMONS ── */
+    section { padding: 96px 0; }
+    .section-header { margin-bottom: 56px; }
+    .section-header.centered { text-align: center; }
+    .section-header h2 {
+      font-size: clamp(28px, 3.2vw, 44px);
+      font-weight: 800; letter-spacing: -0.02em;
+      line-height: 1.15; color: var(--text); margin-bottom: 16px;
+    }
+    .section-header p {
+      font-size: 17px; color: var(--muted); font-weight: 400;
+      max-width: 540px; line-height: 1.7;
+    }
+    .section-header.centered p { margin: 0 auto; }
+
+    /* ── WHO WE ARE ── */
+    #who { background: var(--white); }
+    .who-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .who-visual {
+      background: var(--sage-bg);
+      border-radius: 20px;
+      aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .who-content { }
+    .who-content h2 {
+      font-size: clamp(26px, 3vw, 40px);
+      font-weight: 800; letter-spacing: -0.02em;
+      line-height: 1.15; margin-bottom: 18px;
+    }
+    .who-content p {
+      font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 28px;
+    }
+    .check-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .check-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 15px; font-weight: 500; color: var(--text);
+    }
+    .check-list li::before {
+      content: '';
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--primary); flex-shrink: 0; margin-top: 1px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 10l3.5 3.5L15 7' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    /* ── WHAT WE OFFER ── */
+    #offer { background: var(--cream); }
+    .offer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .offer-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 32px 28px;
+      border: 1px solid var(--border);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .offer-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+    .offer-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: var(--hero-bg);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .offer-icon svg { width: 26px; height: 26px; }
+    .offer-card h3 {
+      font-size: 17px; font-weight: 700; margin-bottom: 10px; color: var(--text);
+    }
+    .offer-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* ── HOW IT WORKS ── */
+    #how { background: var(--white); }
+    .how-split {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
+    }
+    .how-left h2 {
+      font-size: clamp(28px, 3.2vw, 42px);
+      font-weight: 800; letter-spacing: -0.02em;
+      line-height: 1.15; margin-bottom: 16px;
+    }
+    .how-left p { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 32px; }
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: flex; gap: 20px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--primary);
+      color: #fff; font-size: 15px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .step-body h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .step-body p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+    .how-right {
+      background: var(--hero-bg);
+      border-radius: 20px;
+      padding: 40px;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 420px;
+    }
+
+    /* ── STATS ── */
+    #stats { background: var(--primary-dark); padding: 72px 0; }
+    .stats-inner { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
+    .stats-headline {
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 800; color: #fff; letter-spacing: -0.02em;
+      text-align: center; margin-bottom: 52px; line-height: 1.2;
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 28px 24px;
+    }
+    .stat-num {
+      font-size: 38px; font-weight: 800; color: #fff; letter-spacing: -0.02em;
+      margin-bottom: 6px; line-height: 1;
+    }
+    .stat-label { font-size: 14px; color: rgba(255,255,255,0.55); font-weight: 400; line-height: 1.5; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--cream); }
+    .testimonials-scroll {
+      display: flex; gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 20px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .testimonials-scroll::-webkit-scrollbar { display: none; }
+    .tcard {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 28px;
+      min-width: 300px; max-width: 320px;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+    .tcard-stars { color: var(--accent-gold); font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
+    .tcard-text { font-size: 15px; line-height: 1.7; color: var(--text); margin-bottom: 20px; font-weight: 400; }
+    .tcard-author { display: flex; align-items: center; gap: 12px; }
+    .tcard-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--hero-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 700; color: var(--primary);
+      flex-shrink: 0;
+    }
+    .tcard-name { font-size: 14px; font-weight: 700; color: var(--text); }
+    .tcard-role { font-size: 12px; color: var(--muted); }
+    .testimonials-nav {
+      display: flex; gap: 8px; margin-top: 28px;
+    }
+    .tnav-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .tnav-btn:hover { border-color: var(--primary); background: var(--primary); }
+    .tnav-btn:hover svg { stroke: #fff; }
+    .tnav-btn svg { width: 18px; height: 18px; stroke: var(--text); fill: none; stroke-width: 2; }
+
+    /* ── CTA SECTION ── */
+    #cta { background: var(--hero-bg); padding: 96px 0; }
+    .cta-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 40px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+    .cta-text h2 {
+      font-size: clamp(28px, 3.5vw, 46px);
+      font-weight: 800; letter-spacing: -0.02em; line-height: 1.12;
+      margin-bottom: 18px;
+    }
+    .cta-text p { font-size: 17px; color: var(--muted); line-height: 1.7; margin-bottom: 32px; }
+    .cta-visual {
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── FAQ ── */
+    #faq { background: var(--white); }
+    .faq-grid {
+      display: grid; grid-template-columns: 1fr 2fr;
+      gap: 80px; align-items: start;
+    }
+    .faq-left h2 {
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 800; letter-spacing: -0.02em; line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .faq-left p { font-size: 15px; color: var(--muted); line-height: 1.7; }
+    .faq-list { display: flex; flex-direction: column; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 22px 0; cursor: pointer; gap: 16px;
+      font-size: 16px; font-weight: 600; color: var(--text);
+      user-select: none; transition: color 0.2s;
+    }
+    .faq-q:hover { color: var(--primary); }
+    .faq-icon {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: all 0.25s;
+    }
+    .faq-icon svg { width: 14px; height: 14px; stroke: var(--text); fill: none; stroke-width: 2; transition: transform 0.25s; }
+    .faq-item.open .faq-icon { background: var(--primary); border-color: var(--primary); }
+    .faq-item.open .faq-icon svg { stroke: #fff; transform: rotate(45deg); }
+    .faq-a {
+      font-size: 15px; color: var(--muted); line-height: 1.75;
+      max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.25s;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 22px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--primary-dark);
+      padding: 64px 0 32px;
+      color: rgba(255,255,255,0.65);
+    }
+    .footer-top {
+      max-width: 1160px; margin: 0 auto; padding: 0 40px;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; margin-bottom: 48px;
+    }
+    .footer-brand img { height: 44px; filter: brightness(0) invert(1); opacity: 0.9; margin-bottom: 16px; display: block; }
+    .footer-brand p { font-size: 14px; line-height: 1.7; max-width: 260px; }
+    .footer-col h5 {
+      font-size: 13px; font-weight: 700; color: #fff;
+      letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a {
+      font-size: 14px; color: rgba(255,255,255,0.55);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-col ul li a:hover { color: #fff; }
+    .footer-bottom {
+      max-width: 1160px; margin: 0 auto; padding: 24px 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p { font-size: 13px; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .hero-text .eyebrow  { animation: heroFadeUp 0.6s ease both; animation-delay: 0.1s; }
+    .hero-text h1        { animation: heroFadeUp 0.7s ease both; animation-delay: 0.22s; }
+    .hero-text p         { animation: heroFadeUp 0.7s ease both; animation-delay: 0.38s; }
+    .hero-actions        { animation: heroFadeUp 0.7s ease both; animation-delay: 0.52s; }
+    .hero-visual         { animation: heroFadeIn 1s ease both;   animation-delay: 0.5s; }
+    .trust-strip         { animation: heroFadeUp 0.6s ease both; animation-delay: 0.65s; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.65s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+    .offer-card {
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.35s cubic-bezier(0.22,1,0.36,1),
+                  opacity 0.65s cubic-bezier(0.22,1,0.36,1) !important;
+    }
+    .offer-card:hover { transform: translateY(-6px) scale(1.01); }
+
+    .nav-links a.nav-active { opacity: 1; color: var(--primary); font-weight: 700; }
+
+    /* WhatsApp FAB */
+    .whatsapp-fab {
+      position: fixed; bottom: 28px; right: 28px; z-index: 200;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: #25d366;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+      text-decoration: none;
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s;
+      animation: heroFadeIn 0.6s ease 1s both;
+    }
+    .whatsapp-fab:hover { transform: scale(1.12); box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+    .whatsapp-fab svg { width: 30px; height: 30px; fill: white; }
+    .whatsapp-tooltip {
+      position: absolute; right: 68px; top: 50%; transform: translateY(-50%);
+      background: var(--primary-dark); color: #fff;
+      font-size: 13px; font-weight: 600;
+      padding: 7px 13px; border-radius: 8px; white-space: nowrap;
+      pointer-events: none; opacity: 0; transition: opacity 0.2s;
+    }
+    .whatsapp-fab:hover .whatsapp-tooltip { opacity: 1; }
+
+    /* Scroll to top */
+    #scroll-top {
+      position: fixed; bottom: 96px; right: 28px; z-index: 200;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--white); border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s;
+    }
+    #scroll-top.visible { opacity: 1; pointer-events: auto; }
+    #scroll-top:hover { transform: translateY(-2px); box-shadow: 0 4px 18px rgba(0,0,0,0.12); }
+    #scroll-top svg { width: 18px; height: 18px; stroke: var(--primary); fill: none; stroke-width: 2.2; }
+
+    /* ── TOURS ── */
+    #tours { background: var(--white); }
+    .tours-tabs {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      justify-content: center;
+      margin: 40px 0 48px;
+      padding: 6px;
+      background: var(--cream);
+      border-radius: 14px;
+      max-width: fit-content;
+      margin-left: auto; margin-right: auto;
+      border: 1px solid var(--border);
+    }
+    .tour-tab {
+      padding: 12px 22px;
+      border: none; background: transparent;
+      font-family: inherit; font-size: 14px; font-weight: 600;
+      color: var(--muted); cursor: pointer;
+      border-radius: 10px;
+      transition: color 0.25s, background 0.25s, transform 0.2s;
+      white-space: nowrap;
+    }
+    .tour-tab:hover { color: var(--text); }
+    .tour-tab.active {
+      background: var(--primary); color: #fff;
+      box-shadow: 0 4px 12px rgba(71,69,70,0.18);
+    }
+
+    .tours-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .tour-panel { display: none; }
+    .tour-panel.active {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      animation: tourFadeIn 0.5s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes tourFadeIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .tour-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex; gap: 16px; align-items: flex-start;
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1),
+                  border-color 0.25s,
+                  box-shadow 0.3s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .tour-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--hero-bg) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .tour-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: 0 12px 32px rgba(71,69,70,0.08);
+    }
+    .tour-card:hover::before { opacity: 1; }
+    .tour-card > * { position: relative; z-index: 1; }
+
+    .tour-thumb {
+      width: 56px; height: 56px; flex-shrink: 0;
+      border-radius: 12px;
+      background: var(--hero-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .tour-card:nth-child(5n+1) .tour-thumb { background: #edf0f5; }
+    .tour-card:nth-child(5n+2) .tour-thumb { background: #f0f4f1; }
+    .tour-card:nth-child(5n+3) .tour-thumb { background: #faf3e8; }
+    .tour-card:nth-child(5n+4) .tour-thumb { background: #f5edf0; }
+    .tour-card:nth-child(5n+5) .tour-thumb { background: #ecf3f5; }
+
+    .tour-body { flex: 1; min-width: 0; }
+    .tour-body h4 {
+      font-size: 16px; font-weight: 700;
+      color: var(--text); line-height: 1.35;
+      margin-bottom: 6px;
+    }
+    .tour-body .tour-meta {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--muted); font-weight: 500;
+    }
+    .tour-arrow {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.25s, transform 0.25s;
+    }
+    .tour-arrow svg { width: 14px; height: 14px; stroke: var(--text); fill: none; stroke-width: 2; }
+    .tour-card:hover .tour-arrow {
+      background: var(--primary);
+      transform: translateX(3px);
+    }
+    .tour-card:hover .tour-arrow svg { stroke: #fff; }
+
+    @media (max-width: 899px) {
+      .tours-grid, .tour-panel.active { grid-template-columns: repeat(2, 1fr); }
+      .tours-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        max-width: 100%;
+        justify-content: flex-start;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .tours-tabs::-webkit-scrollbar { display: none; }
+      .tour-tab { padding: 10px 18px; font-size: 13px; }
+    }
+    @media (max-width: 599px) {
+      .tours-grid, .tour-panel.active { grid-template-columns: 1fr; gap: 12px; }
+      .tour-card { padding: 20px; }
+    }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; width: 36px; height: 36px; cursor: pointer;
+      background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; height: 2px; background: var(--text);
+      border-radius: 2px; transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .mobile-menu {
+      display: none; position: fixed;
+      top: 68px; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      z-index: 99; flex-direction: column;
+      padding: 32px 28px; gap: 4px;
+      overflow-y: auto;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 20px; font-weight: 700; color: var(--text);
+      text-decoration: none; padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      display: block; transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--primary); }
+    .mobile-menu .mobile-cta {
+      margin-top: 24px; background: var(--primary); color: #fff !important;
+      text-align: center; border-radius: 10px; padding: 16px !important;
+      border-bottom: none !important; font-size: 16px !important;
+    }
+
+    /* ── RESPONSIVE: DESKTOP (1200px+) ── */
+    @media (min-width: 1200px) {
+      .container, .nav-inner, .stats-inner, .footer-top, .footer-bottom { max-width: 1200px; }
+    }
+
+    /* ── RESPONSIVE: LAPTOP (900–1199px) ── */
+    @media (max-width: 1199px) and (min-width: 900px) {
+      .container, .nav-inner, .stats-inner, .footer-top, .footer-bottom { padding-left: 32px; padding-right: 32px; }
+      .hero-text h1 { font-size: 44px; }
+      .offer-grid { grid-template-columns: repeat(3, 1fr); }
+      .footer-top { gap: 32px; }
+      .hero-illustration { max-width: 360px; }
+    }
+
+    /* ── RESPONSIVE: TABLET (600–899px) ── */
+    @media (max-width: 899px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+
+      .container, .nav-inner, .stats-inner, .footer-top, .footer-bottom {
+        padding-left: 24px; padding-right: 24px;
+      }
+
+      section { padding: 64px 0; }
+      #stats { padding: 56px 0; }
+
+      /* Hero */
+      .hero-inner { grid-template-columns: 1fr; padding-bottom: 0; }
+      .hero-text { padding-bottom: 48px; }
+      .hero-visual { padding: 40px 24px 0; background: var(--hero-bg); justify-content: center; }
+      .hero-illustration { max-width: 320px; }
+      #hero { padding-top: 60px; }
+
+      /* Trust */
+      .trust-inner { flex-wrap: wrap; gap: 16px; }
+      .trust-items { gap: 16px; }
+
+      /* Who */
+      .who-grid { grid-template-columns: 1fr; gap: 40px; }
+      .who-visual { max-height: 280px; }
+
+      /* Offer */
+      .offer-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+      /* How */
+      .how-split { grid-template-columns: 1fr; gap: 48px; }
+      .how-right { min-height: 280px; padding: 28px; }
+
+      /* Stats */
+      .stats-headline { font-size: 22px; margin-bottom: 36px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .stat-num { font-size: 32px; }
+
+      /* CTA */
+      .cta-inner { grid-template-columns: 1fr; gap: 40px; }
+      .cta-visual { display: none; }
+
+      /* FAQ */
+      .faq-grid { grid-template-columns: 1fr; gap: 40px; }
+      .faq-left p, .faq-left a { display: inline; }
+
+      /* Footer */
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    /* ── RESPONSIVE: MOBILE (< 600px) ── */
+    @media (max-width: 599px) {
+      .nav-inner { padding: 0 16px; }
+      .container, .stats-inner, .footer-top, .footer-bottom { padding-left: 16px; padding-right: 16px; }
+
+      section { padding: 52px 0; }
+      #stats { padding: 48px 0; }
+
+      /* Hero */
+      #hero { padding-top: 52px; }
+      .hero-text { padding: 0 16px 40px; }
+      .hero-text h1 { font-size: 32px; }
+      .hero-text p { font-size: 15px; }
+      .hero-visual { display: none; }
+      .hero-actions { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .btn { width: 100%; justify-content: center; }
+
+      /* Trust */
+      .trust-inner { flex-direction: column; gap: 12px; }
+      .trust-items { gap: 12px; }
+      .trust-item { font-size: 13px; }
+
+      /* Who */
+      .who-visual { max-height: 220px; }
+      .about-pillars { grid-template-columns: 1fr; }
+
+      /* Offer */
+      .offer-grid { grid-template-columns: 1fr; gap: 12px; }
+      .offer-card { padding: 24px 20px; }
+
+      /* How */
+      .how-right { display: none; }
+      .how-left .btn { display: inline-flex; width: auto; }
+
+      /* Stats */
+      .stats-headline { font-size: 20px; margin-bottom: 28px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .stat-card { padding: 20px 16px; }
+      .stat-num { font-size: 28px; }
+      .stat-label { font-size: 12px; }
+
+      /* Testimonials */
+      .tcard { min-width: 260px; padding: 22px; }
+      .testimonials-nav { margin-top: 20px; }
+
+      /* CTA form */
+      .cta-inner { padding: 0 16px; }
+      .cta-text h2 { font-size: 26px; }
+      .cta-inner > .cta-text > div { gap: 12px; }
+      .cta-inner > .cta-text > div > div:first-child { flex-direction: column; }
+
+      /* FAQ */
+      .faq-q { font-size: 14px; }
+      .faq-a { font-size: 14px; }
+
+      /* Footer */
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo"><img src="uploads/kuda-logo.png" alt="Kuda Travel & Tours"/></div>
+    <ul class="nav-links">
+      <li><a href="#who">About</a></li>
+      <li><a href="#offer">Services</a></li>
+      <li><a href="#tours">Tours</a></li>
+      <li><a href="#how">Process</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#cta" class="nav-cta">Book a Tour</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#who" class="mobile-link">About</a>
+  <a href="#offer" class="mobile-link">Services</a>
+  <a href="#tours" class="mobile-link">Tours</a>
+  <a href="#how" class="mobile-link">Process</a>
+  <a href="#testimonials" class="mobile-link">Reviews</a>
+  <a href="#faq" class="mobile-link">FAQ</a>
+  <a href="#cta" class="mobile-cta mobile-link">Book a Tour</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="eyebrow">Sri Lanka's trusted travel partner</span>
+      <h1>Your journey,<br/>perfectly<br/>planned.</h1>
+      <p>Comfortable vehicles, expert local drivers, and tailor-made itineraries — for day trips, island tours, and everything in between.</p>
+      <div class="hero-actions">
+        <a href="#cta" class="btn btn-dark">Plan Your Journey</a>
+        <a href="#offer" class="btn btn-outline">See Services</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <!-- Hero illustration: styled van + map pin -->
+      <svg class="hero-illustration" viewBox="0 0 440 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Shadow -->
+        <ellipse cx="220" cy="370" rx="140" ry="14" fill="#c8cdd6" opacity="0.4"/>
+        <!-- Road -->
+        <rect x="60" y="340" width="320" height="28" rx="6" fill="#dde1e8"/>
+        <rect x="100" y="351" width="40" height="6" rx="3" fill="white" opacity="0.7"/>
+        <rect x="200" y="351" width="40" height="6" rx="3" fill="white" opacity="0.7"/>
+        <rect x="300" y="351" width="40" height="6" rx="3" fill="white" opacity="0.7"/>
+        <!-- Van body -->
+        <rect x="80" y="255" width="280" height="100" rx="18" fill="#474546"/>
+        <!-- Van roof -->
+        <path d="M108 255 L126 210 L330 210 L352 255 Z" fill="#5a5859" rx="8"/>
+        <!-- Windows -->
+        <rect x="136" y="218" width="56" height="30" rx="6" fill="#a8c5d4" opacity="0.85"/>
+        <rect x="202" y="218" width="56" height="30" rx="6" fill="#a8c5d4" opacity="0.85"/>
+        <rect x="268" y="218" width="48" height="30" rx="6" fill="#a8c5d4" opacity="0.85"/>
+        <!-- Windshield -->
+        <path d="M330 210 L352 255 L340 255 L320 218 Z" fill="#b8d0de" opacity="0.75"/>
+        <!-- Headlights -->
+        <rect x="356" y="260" width="24" height="14" rx="4" fill="#e8d47a"/>
+        <rect x="356" y="278" width="24" height="10" rx="3" fill="#f0e8b0" opacity="0.8"/>
+        <!-- Rear lights -->
+        <rect x="60" y="262" width="18" height="14" rx="4" fill="#c0392b" opacity="0.8"/>
+        <!-- Front wheel -->
+        <circle cx="320" cy="340" r="34" fill="#2d2b2c"/>
+        <circle cx="320" cy="340" r="22" fill="#474546"/>
+        <circle cx="320" cy="340" r="10" fill="#2d2b2c"/>
+        <circle cx="320" cy="340" r="4" fill="#8a8788"/>
+        <!-- Rear wheel -->
+        <circle cx="140" cy="340" r="34" fill="#2d2b2c"/>
+        <circle cx="140" cy="340" r="22" fill="#474546"/>
+        <circle cx="140" cy="340" r="10" fill="#2d2b2c"/>
+        <circle cx="140" cy="340" r="4" fill="#8a8788"/>
+        <!-- Door line -->
+        <line x1="200" y1="255" x2="200" y2="340" stroke="#2d2b2c" stroke-width="2.5" opacity="0.6"/>
+        <line x1="268" y1="255" x2="268" y2="340" stroke="#2d2b2c" stroke-width="2.5" opacity="0.6"/>
+        <!-- Door handles -->
+        <rect x="222" y="294" width="20" height="5" rx="2.5" fill="#8a8788"/>
+        <rect x="288" y="294" width="20" height="5" rx="2.5" fill="#8a8788"/>
+        <!-- Roof rack -->
+        <rect x="130" y="207" width="180" height="6" rx="3" fill="#3a3839"/>
+        <!-- Map pin -->
+        <circle cx="310" cy="90" r="44" fill="#5a8fa8"/>
+        <path d="M310 44 C285 44 266 63 266 88 C266 115 310 148 310 148 C310 148 354 115 354 88 C354 63 335 44 310 44 Z" fill="#5a8fa8"/>
+        <circle cx="310" cy="86" r="16" fill="white"/>
+        <!-- Pin shadow -->
+        <ellipse cx="310" cy="152" rx="18" ry="6" fill="#5a8fa8" opacity="0.25"/>
+        <!-- Dotted path to van -->
+        <path d="M310 152 C310 180 280 190 250 200 C230 208 220 220 215 238" stroke="#5a8fa8" stroke-width="2.5" stroke-dasharray="6 5" stroke-linecap="round" opacity="0.5"/>
+        <!-- Stars / sparkles -->
+        <circle cx="380" cy="60" r="5" fill="#d4a853"/>
+        <circle cx="55" cy="130" r="4" fill="#d4a853" opacity="0.7"/>
+        <circle cx="400" cy="180" r="3" fill="#5a8fa8" opacity="0.6"/>
+        <path d="M70 80 L73 88 L81 88 L75 93 L77 101 L70 96 L63 101 L65 93 L59 88 L67 88 Z" fill="#d4a853" opacity="0.5"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-inner">
+    <span class="trust-label">Trusted for</span>
+    <div class="trust-items">
+      <div class="trust-item"><span class="trust-dot"></span>Day Tours</div>
+      <div class="trust-item"><span class="trust-dot"></span>Multi-Day Trips</div>
+      <div class="trust-item"><span class="trust-dot"></span>Airport Transfers</div>
+      <div class="trust-item"><span class="trust-dot"></span>Group Travel</div>
+      <div class="trust-item"><span class="trust-dot"></span>City Excursions</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHO WE ARE -->
+<section id="who">
+  <div class="container">
+    <div class="who-grid">
+      <div class="who-visual">
+        <!-- Who we are illustration: map + route -->
+        <svg viewBox="0 0 420 320" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:85%;height:85%;">
+          <!-- Map background card -->
+          <rect x="20" y="20" width="380" height="280" rx="16" fill="white"/>
+          <rect x="20" y="20" width="380" height="280" rx="16" fill="none" stroke="#e8e6e4" stroke-width="1.5"/>
+          <!-- Grid lines -->
+          <line x1="20" y1="80" x2="400" y2="80" stroke="#f0eeec" stroke-width="1"/>
+          <line x1="20" y1="140" x2="400" y2="140" stroke="#f0eeec" stroke-width="1"/>
+          <line x1="20" y1="200" x2="400" y2="200" stroke="#f0eeec" stroke-width="1"/>
+          <line x1="20" y1="260" x2="400" y2="260" stroke="#f0eeec" stroke-width="1"/>
+          <line x1="100" y1="20" x2="100" y2="300" stroke="#f0eeec" stroke-width="1"/>
+          <line x1="180" y1="20" x2="180" y2="300" stroke="#f0eeec" stroke-width="1"/>
+          <line x1="260" y1="20" x2="260" y2="300" stroke="#f0eeec" stroke-width="1"/>
+          <line x1="340" y1="20" x2="340" y2="300" stroke="#f0eeec" stroke-width="1"/>
+          <!-- Road paths -->
+          <path d="M60 260 C80 240 100 220 140 200 C180 180 200 160 240 140 C280 120 320 110 360 90" stroke="#dde1e8" stroke-width="12" stroke-linecap="round"/>
+          <path d="M60 260 C80 240 100 220 140 200 C180 180 200 160 240 140 C280 120 320 110 360 90" stroke="white" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 8"/>
+          <!-- Route highlight -->
+          <path d="M80 240 C110 215 150 195 200 170 C240 150 290 125 340 100" stroke="#5a8fa8" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 6"/>
+          <!-- Start pin -->
+          <circle cx="80" cy="240" r="14" fill="#474546"/>
+          <circle cx="80" cy="240" r="6" fill="white"/>
+          <!-- End pin -->
+          <circle cx="340" cy="100" r="18" fill="#5a8fa8"/>
+          <path d="M340 82 C328 82 320 90 320 100 C320 115 340 132 340 132 C340 132 360 115 360 100 C360 90 352 82 340 82 Z" fill="#5a8fa8"/>
+          <circle cx="340" cy="99" r="7" fill="white"/>
+          <!-- Van icon on route -->
+          <rect x="188" y="154" width="36" height="18" rx="5" fill="#474546"/>
+          <rect x="194" y="148" width="24" height="10" rx="3" fill="#5a5859"/>
+          <circle cx="196" cy="172" r="6" fill="#2d2b2c"/>
+          <circle cx="218" cy="172" r="6" fill="#2d2b2c"/>
+          <!-- Location labels -->
+          <rect x="40" y="252" width="60" height="20" rx="4" fill="white" filter="drop-shadow(0 2px 6px rgba(0,0,0,0.1))"/>
+          <text x="70" y="265" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="9" font-weight="700" fill="#474546">Colombo</text>
+          <rect x="310" y="108" width="60" height="20" rx="4" fill="white" filter="drop-shadow(0 2px 6px rgba(0,0,0,0.1))"/>
+          <text x="340" y="121" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="9" font-weight="700" fill="#5a8fa8">Ella</text>
+        </svg>
+      </div>
+      <div class="who-content">
+        <span class="eyebrow">Who We Are</span>
+        <h2>Local knowledge,<br/>seamless journeys</h2>
+        <p>Kuda Travel & Tours was built on one simple idea — that exploring Sri Lanka should be effortless. We connect travellers with experienced local drivers and handcrafted itineraries, so you can focus on the experience, not the logistics.</p>
+        <ul class="check-list">
+          <li>Professional, licensed drivers with deep local knowledge</li>
+          <li>Custom itineraries tailored to your pace and interests</li>
+          <li>Well-maintained, air-conditioned vehicles for all group sizes</li>
+          <li>Island-wide coverage — coast to mountains and everywhere between</li>
+          <li>24/7 support for any changes to your plan</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE OFFER -->
+<section id="offer">
+  <div class="container">
+    <div class="section-header centered">
+      <span class="eyebrow">What We Offer</span>
+      <h2>Every kind of journey,<br/>covered.</h2>
+      <p>From a quick airport transfer to a multi-week island adventure — we have the right option for every traveller.</p>
+    </div>
+    <div class="offer-grid">
+
+      <div class="offer-card">
+        <div class="offer-icon">
+          <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="13" cy="13" r="10" stroke="#5a8fa8" stroke-width="1.8"/>
+            <path d="M13 7v6l4 2" stroke="#5a8fa8" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Day Tours</h3>
+        <p>Full-day guided experiences to a single region or destination — curated stops, comfortable ride, local insights included.</p>
+      </div>
+
+      <div class="offer-card">
+        <div class="offer-icon">
+          <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 13h18M4 7h18M4 19h12" stroke="#5a8fa8" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Multi-Day Tours</h3>
+        <p>Immersive multi-day itineraries across Sri Lanka — planned end-to-end with accommodation guidance, routes and more.</p>
+      </div>
+
+      <div class="offer-card">
+        <div class="offer-icon">
+          <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 16.5v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1A19.5 19.5 0 014.7 12a19.8 19.8 0 01-3.1-8.7A2 2 0 013.6 1.3H6.6a2 2 0 012 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.5 2.1L7.9 8.4a16 16 0 006 6l1.3-.9a2 2 0 012.1-.5c.9.3 1.9.6 2.8.7A2 2 0 0122 16.5z" stroke="#5a8fa8" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Airport Transfers</h3>
+        <p>Reliable, punctual pick-up and drop-off at any Sri Lankan airport. Meet & greet service included as standard.</p>
+      </div>
+
+      <div class="offer-card">
+        <div class="offer-icon">
+          <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 2C8 2 4 6 4 11c0 7.5 9 13 9 13s9-5.5 9-13c0-5-4-9-9-9z" stroke="#5a8fa8" stroke-width="1.8"/>
+            <circle cx="13" cy="11" r="3" stroke="#5a8fa8" stroke-width="1.8"/>
+          </svg>
+        </div>
+        <h3>City Excursions</h3>
+        <p>Curated city tours of Colombo, Kandy, Galle and more — culture, cuisine, and hidden gems with a local guide.</p>
+      </div>
+
+      <div class="offer-card">
+        <div class="offer-icon">
+          <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="#5a8fa8" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="9" cy="7" r="4" stroke="#5a8fa8" stroke-width="1.8"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8" stroke="#5a8fa8" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Group Travel</h3>
+        <p>Spacious vehicles for families, corporate groups, and guided group tours — any size, fully managed.</p>
+      </div>
+
+      <div class="offer-card">
+        <div class="offer-icon">
+          <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="3" width="15" height="13" stroke="#5a8fa8" stroke-width="1.8" rx="2"/>
+            <path d="M16 8h4l3 5v3h-7V8z" stroke="#5a8fa8" stroke-width="1.8" stroke-linejoin="round"/>
+            <circle cx="5.5" cy="19.5" r="2.5" stroke="#5a8fa8" stroke-width="1.8"/>
+            <circle cx="18.5" cy="19.5" r="2.5" stroke="#5a8fa8" stroke-width="1.8"/>
+          </svg>
+        </div>
+        <h3>Vehicle Hire</h3>
+        <p>Hire any vehicle from our fleet with a professional driver — by the day or by the trip, for as long as you need.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TOURS -->
+<section id="tours">
+  <div class="container">
+    <div class="section-header centered">
+      <span class="eyebrow">Tour Packages</span>
+      <h2>Pick a journey that fits<br/>your time.</h2>
+      <p>From a single day's adventure to a 5-day grand loop — our curated itineraries cover every corner of Sri Lanka.</p>
+    </div>
+
+    <div class="tours-tabs" role="tablist">
+      <button class="tour-tab active" data-tour="day">Day Tours</button>
+      <button class="tour-tab" data-tour="t1">1 Night / 2 Days</button>
+      <button class="tour-tab" data-tour="t2">2 Nights / 3 Days</button>
+      <button class="tour-tab" data-tour="t3">3 Nights / 4 Days</button>
+      <button class="tour-tab" data-tour="t4">4 Nights / 5 Days</button>
+    </div>
+
+    <!-- Day Tours -->
+    <div class="tour-panel active" data-panel="day">
+      <div class="tour-card">
+        <div class="tour-thumb">🏙️</div>
+        <div class="tour-body">
+          <h4>Colombo City Tour</h4>
+          <div class="tour-meta">1 day · Capital highlights</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🏖️</div>
+        <div class="tour-body">
+          <h4>Galle & Bentota Tour</h4>
+          <div class="tour-meta">1 day · Coast & fort</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🛕</div>
+        <div class="tour-body">
+          <h4>Kandy Cultural Tour</h4>
+          <div class="tour-meta">1 day · Temple of the Tooth</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🪨</div>
+        <div class="tour-body">
+          <h4>Sigiriya & Dambulla</h4>
+          <div class="tour-meta">Long day · Ancient wonders</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🌊</div>
+        <div class="tour-body">
+          <h4>Kitulgala Adventure</h4>
+          <div class="tour-meta">1 day · Rafting & jungle</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🛶</div>
+        <div class="tour-body">
+          <h4>Negombo Lagoon Tour</h4>
+          <div class="tour-meta">1 day · Coastal serenity</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🏛️</div>
+        <div class="tour-body">
+          <h4>Bawa Architecture Tour</h4>
+          <div class="tour-meta">1 day · Iconic design</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+
+    <!-- 1 Night / 2 Days -->
+    <div class="tour-panel" data-panel="t1">
+      <div class="tour-card">
+        <div class="tour-thumb">🪨</div>
+        <div class="tour-body">
+          <h4>Sigiriya Heritage Escape</h4>
+          <div class="tour-meta">1N · 2D · Cultural triangle</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🍃</div>
+        <div class="tour-body">
+          <h4>Kandy & Nuwara Eliya</h4>
+          <div class="tour-meta">1N · 2D · Hills & tea</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🐋</div>
+        <div class="tour-body">
+          <h4>Galle & Mirissa</h4>
+          <div class="tour-meta">1N · 2D · Whale watching</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🐘</div>
+        <div class="tour-body">
+          <h4>Udawalawe Safari</h4>
+          <div class="tour-meta">1N · 2D · Wildlife</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🌿</div>
+        <div class="tour-body">
+          <h4>Sinharaja Rainforest</h4>
+          <div class="tour-meta">1N · 2D · Biodiversity</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+
+    <!-- 2 Nights / 3 Days -->
+    <div class="tour-panel" data-panel="t2">
+      <div class="tour-card">
+        <div class="tour-thumb">🛕</div>
+        <div class="tour-body">
+          <h4>Cultural Triangle</h4>
+          <div class="tour-meta">2N · 3D · Ancient kingdoms</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🚂</div>
+        <div class="tour-body">
+          <h4>Hill Country & Ella</h4>
+          <div class="tour-meta">2N · 3D · Iconic train ride</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🌴</div>
+        <div class="tour-body">
+          <h4>South Coast Luxury</h4>
+          <div class="tour-meta">2N · 3D · Beaches & villas</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🦁</div>
+        <div class="tour-body">
+          <h4>Ella & Yala</h4>
+          <div class="tour-meta">2N · 3D · Hills + safari</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🏯</div>
+        <div class="tour-body">
+          <h4>Wilpattu & Anuradhapura</h4>
+          <div class="tour-meta">2N · 3D · Heritage & leopards</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+
+    <!-- 3 Nights / 4 Days -->
+    <div class="tour-panel" data-panel="t3">
+      <div class="tour-card">
+        <div class="tour-thumb">🗺️</div>
+        <div class="tour-body">
+          <h4>Sigiriya, Kandy & Nuwara Eliya</h4>
+          <div class="tour-meta">3N · 4D · Heritage trail</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🌄</div>
+        <div class="tour-body">
+          <h4>Kandy, Ella & Galle</h4>
+          <div class="tour-meta">3N · 4D · Mountains to sea</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🐆</div>
+        <div class="tour-body">
+          <h4>Wildlife & South Coast</h4>
+          <div class="tour-meta">3N · 4D · Safari + beaches</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🌳</div>
+        <div class="tour-body">
+          <h4>Sinharaja, Udawalawe & Galle</h4>
+          <div class="tour-meta">3N · 4D · Rainforest to coast</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🏺</div>
+        <div class="tour-body">
+          <h4>Polonnaruwa, Sigiriya & Kandy</h4>
+          <div class="tour-meta">3N · 4D · Royal cities</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+
+    <!-- 4 Nights / 5 Days -->
+    <div class="tour-panel" data-panel="t4">
+      <div class="tour-card">
+        <div class="tour-thumb">🌍</div>
+        <div class="tour-body">
+          <h4>Classic Sri Lanka Discovery</h4>
+          <div class="tour-meta">4N · 5D · Grand loop</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🍵</div>
+        <div class="tour-body">
+          <h4>Heritage, Tea & Beach</h4>
+          <div class="tour-meta">4N · 5D · Best of Sri Lanka</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🐘</div>
+        <div class="tour-body">
+          <h4>Wildlife, Ella & Galle</h4>
+          <div class="tour-meta">4N · 5D · Safari to fort</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🏛️</div>
+        <div class="tour-body">
+          <h4>Cultural Triangle Deep Tour</h4>
+          <div class="tour-meta">4N · 5D · Full immersion</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-thumb">🌿</div>
+        <div class="tour-body">
+          <h4>Eco, Safari & South Coast</h4>
+          <div class="tour-meta">4N · 5D · Nature lover's dream</div>
+        </div>
+        <div class="tour-arrow"><svg viewBox="0 0 14 14"><path d="M3 7h8M7 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:48px;">
+      <a href="#cta" class="btn btn-dark">Customise Your Tour</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="how-split">
+      <div class="how-left">
+        <span class="eyebrow">How It Works</span>
+        <h2>From enquiry to arrival in four easy steps.</h2>
+        <p>Getting on the road with Kuda is simple. We handle all the planning — you just enjoy the journey.</p>
+        <a href="#cta" class="btn btn-dark" style="margin-top:8px;">Start Planning</a>
+        <div class="steps" style="margin-top:40px;">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h4>Get in Touch</h4>
+              <p>Contact us via phone, WhatsApp, or the enquiry form with your travel details and preferences.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h4>Plan Together</h4>
+              <p>We'll craft an itinerary around your dates, destinations, group size and budget — shared for your approval.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h4>Confirm & Pay</h4>
+              <p>Review your personalised plan, confirm the booking and make a simple advance payment to secure your spot.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <h4>Enjoy the Ride</h4>
+              <p>Your driver arrives on time, ready to go. Sit back and let Kuda take care of everything from here.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="how-right">
+        <!-- Process illustration -->
+        <svg viewBox="0 0 340 380" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px;">
+          <!-- Phone mockup -->
+          <rect x="100" y="20" width="140" height="240" rx="20" fill="white" filter="drop-shadow(0 8px 32px rgba(0,0,0,0.10))"/>
+          <rect x="100" y="20" width="140" height="240" rx="20" fill="none" stroke="#e8e6e4" stroke-width="1.5"/>
+          <!-- Phone screen -->
+          <rect x="112" y="40" width="116" height="200" rx="10" fill="#f5f7fa"/>
+          <!-- Chat bubbles -->
+          <rect x="120" y="55" width="70" height="26" rx="8" fill="#474546"/>
+          <text x="155" y="71" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="8" fill="white" font-weight="600">Hi! Plan a tour?</text>
+          <rect x="130" y="90" width="86" height="26" rx="8" fill="#5a8fa8"/>
+          <text x="173" y="106" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="8" fill="white" font-weight="600">Sure! Tell us more</text>
+          <rect x="120" y="126" width="80" height="26" rx="8" fill="#474546"/>
+          <text x="160" y="142" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="8" fill="white" font-weight="600">3 days, Ella + Kandy</text>
+          <!-- Itinerary card -->
+          <rect x="118" y="164" width="100" height="64" rx="8" fill="white" filter="drop-shadow(0 2px 8px rgba(0,0,0,0.08))"/>
+          <rect x="126" y="172" width="50" height="5" rx="2.5" fill="#474546"/>
+          <rect x="126" y="182" width="36" height="4" rx="2" fill="#c8c5c6"/>
+          <rect x="126" y="192" width="44" height="4" rx="2" fill="#c8c5c6"/>
+          <rect x="126" y="202" width="30" height="4" rx="2" fill="#c8c5c6"/>
+          <rect x="182" y="172" width="28" height="16" rx="4" fill="#5a8fa8"/>
+          <text x="196" y="183" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="7" fill="white" font-weight="700">Plan ✓</text>
+          <!-- Notch -->
+          <rect x="148" y="24" width="44" height="6" rx="3" fill="#e8e6e4"/>
+          <!-- Van driving at bottom -->
+          <rect x="30" y="295" width="280" height="8" rx="4" fill="#dde1e8"/>
+          <rect x="55" y="260" width="140" height="50" rx="10" fill="#474546"/>
+          <path d="M72 260 L84 230 L175 230 L187 260 Z" fill="#5a5859"/>
+          <rect x="90" y="236" width="30" height="18" rx="4" fill="#a8c5d4" opacity="0.85"/>
+          <rect x="128" y="236" width="30" height="18" rx="4" fill="#a8c5d4" opacity="0.85"/>
+          <rect x="166" y="236" width="18" height="18" rx="4" fill="#a8c5d4" opacity="0.75"/>
+          <circle cx="90" cy="295" r="18" fill="#2d2b2c"/>
+          <circle cx="90" cy="295" r="10" fill="#474546"/>
+          <circle cx="170" cy="295" r="18" fill="#2d2b2c"/>
+          <circle cx="170" cy="295" r="10" fill="#474546"/>
+          <rect x="195" y="270" width="14" height="10" rx="3" fill="#e8d47a"/>
+          <!-- Destination flag -->
+          <line x1="270" y1="220" x2="270" y2="290" stroke="#474546" stroke-width="2.5"/>
+          <path d="M270 220 L300 230 L270 240 Z" fill="#5a8fa8"/>
+          <!-- Stars -->
+          <circle cx="40" cy="240" r="4" fill="#d4a853" opacity="0.7"/>
+          <circle cx="300" cy="215" r="5" fill="#d4a853" opacity="0.6"/>
+          <circle cx="310" cy="260" r="3" fill="#5a8fa8" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-inner">
+    <h2 class="stats-headline">We're changing how Sri Lanka<br/>is explored, one journey at a time.</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">Tours completed across Sri Lanka</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">98%</div>
+        <div class="stat-label">Customers who rate us 5 stars</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">12+</div>
+        <div class="stat-label">Years of travel expertise</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Support, always reachable</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;flex-wrap:wrap;gap:20px;">
+      <div>
+        <span class="eyebrow">Testimonials</span>
+        <h2 style="font-size:clamp(26px,3vw,40px);font-weight:800;letter-spacing:-0.02em;line-height:1.15;">What our travellers say</h2>
+      </div>
+      <div class="testimonials-nav">
+        <button class="tnav-btn" id="tprev" aria-label="Previous">
+          <svg viewBox="0 0 18 18"><path d="M11 4L6 9l5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="tnav-btn" id="tnext" aria-label="Next">
+          <svg viewBox="0 0 18 18"><path d="M7 4l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="testimonials-scroll" id="tscroll">
+
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-text">"Kuda made our family trip to Ella absolutely magical. Our driver knew every secret viewpoint and the whole experience was completely stress-free."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">S</div>
+          <div><div class="tcard-name">Sarah M.</div><div class="tcard-role">UK — Family Tour, 5 days</div></div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-text">"Booked a last-minute airport transfer and Kuda was on time, professional, and the car was spotless. Will definitely use them for our full tour next year."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">R</div>
+          <div><div class="tcard-name">Ravi K.</div><div class="tcard-role">Singapore — Airport Transfer</div></div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-text">"Our group of 8 travelled from Colombo to Kandy to Nuwara Eliya — every detail was handled. The itinerary was perfect and our driver was wonderful company."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">A</div>
+          <div><div class="tcard-name">Anna T.</div><div class="tcard-role">Germany — Group Tour, 7 days</div></div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-text">"I've used Kuda three times now. Consistent, reliable, and genuinely friendly. They recommended spots I'd never have found on my own — true local knowledge."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">J</div>
+          <div><div class="tcard-name">James W.</div><div class="tcard-role">Australia — Solo Traveller</div></div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-text">"Incredible service from start to finish. The booking was easy, communication was fast, and the tour itself exceeded every expectation. Highly recommend."</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">N</div>
+          <div><div class="tcard-name">Nadia F.</div><div class="tcard-role">France — Couple's Tour, 4 days</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner">
+    <div class="cta-text">
+      <span class="eyebrow">Ready to explore?</span>
+      <h2>Plan your Sri Lanka journey today.</h2>
+      <p>Tell us where you want to go. We'll take care of the rest — vehicles, routes, drivers, and every detail in between.</p>
+      <div style="display:flex;flex-direction:column;gap:16px;max-width:440px;">
+        <div style="display:flex;gap:12px;">
+          <input type="text" placeholder="Your name" style="flex:1;padding:14px 16px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:15px;outline:none;background:white;" onfocus="this.style.borderColor='#474546'" onblur="this.style.borderColor='#e8e6e4'"/>
+          <input type="tel" placeholder="Phone / WhatsApp" style="flex:1;padding:14px 16px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:15px;outline:none;background:white;" onfocus="this.style.borderColor='#474546'" onblur="this.style.borderColor='#e8e6e4'"/>
+        </div>
+        <input type="text" placeholder="Where would you like to go?" style="padding:14px 16px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:15px;outline:none;background:white;width:100%;" onfocus="this.style.borderColor='#474546'" onblur="this.style.borderColor='#e8e6e4'"/>
+        <textarea placeholder="Tell us more — dates, group size, any special requests…" rows="3" style="padding:14px 16px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:15px;outline:none;background:white;resize:vertical;" onfocus="this.style.borderColor='#474546'" onblur="this.style.borderColor='#e8e6e4'"></textarea>
+        <button class="btn btn-dark" onclick="handleCTA(this)" style="justify-content:center;font-size:15px;">Send Enquiry →</button>
+      </div>
+    </div>
+    <div class="cta-visual">
+      <!-- CTA illustration -->
+      <svg viewBox="0 0 320 380" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px;">
+        <!-- Suitcase -->
+        <rect x="80" y="160" width="160" height="140" rx="16" fill="#474546"/>
+        <rect x="80" y="160" width="160" height="140" rx="16" fill="none" stroke="#3a3839" stroke-width="2"/>
+        <!-- Suitcase handle -->
+        <path d="M130 160 L130 140 C130 130 190 130 190 140 L190 160" stroke="#474546" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <path d="M130 160 L130 140 C130 130 190 130 190 140 L190 160" stroke="#5a5859" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <!-- Suitcase stripe -->
+        <rect x="80" y="218" width="160" height="12" fill="#3a3839"/>
+        <!-- Wheels -->
+        <circle cx="106" cy="302" r="10" fill="#2d2b2c"/>
+        <circle cx="214" cy="302" r="10" fill="#2d2b2c"/>
+        <!-- Suitcase label -->
+        <rect x="112" y="175" width="96" height="28" rx="6" fill="#5a5859"/>
+        <rect x="118" y="181" width="50" height="5" rx="2.5" fill="#8a8788"/>
+        <rect x="118" y="191" width="36" height="4" rx="2" fill="#6a6869"/>
+        <!-- Tag -->
+        <rect x="92" y="248" width="40" height="28" rx="4" fill="#5a8fa8"/>
+        <rect x="95" y="251" width="34" height="4" rx="2" fill="white" opacity="0.5"/>
+        <rect x="95" y="259" width="24" height="3" rx="1.5" fill="white" opacity="0.4"/>
+        <rect x="95" y="265" width="28" height="3" rx="1.5" fill="white" opacity="0.3"/>
+        <!-- Map pin above -->
+        <path d="M160 60 C142 60 130 72 130 86 C130 108 160 138 160 138 C160 138 190 108 190 86 C190 72 178 60 160 60 Z" fill="#5a8fa8"/>
+        <circle cx="160" cy="85" r="14" fill="white"/>
+        <circle cx="160" cy="85" r="7" fill="#5a8fa8"/>
+        <!-- Ellipse shadow under pin -->
+        <ellipse cx="160" cy="142" rx="14" ry="5" fill="#5a8fa8" opacity="0.2"/>
+        <!-- Dotted line from pin to suitcase -->
+        <line x1="160" y1="147" x2="160" y2="158" stroke="#5a8fa8" stroke-width="2" stroke-dasharray="4 3" opacity="0.5"/>
+        <!-- Stars -->
+        <circle cx="60" cy="100" r="5" fill="#d4a853" opacity="0.7"/>
+        <circle cx="268" cy="130" r="4" fill="#d4a853" opacity="0.6"/>
+        <circle cx="56" cy="260" r="3.5" fill="#5a8fa8" opacity="0.5"/>
+        <circle cx="274" cy="280" r="5" fill="#d4a853" opacity="0.5"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-grid">
+      <div class="faq-left">
+        <span class="eyebrow">FAQ</span>
+        <h2>Questions? We've got answers.</h2>
+        <p style="margin-top:12px;">Anything else on your mind — just reach out and we'll be happy to help.</p>
+        <a href="/cdn-cgi/l/email-protection#e1888f878ea18a94858095938097848d92cf8d8a" style="display:inline-block;margin-top:24px;font-size:14px;font-weight:600;color:var(--primary);text-decoration:none;border-bottom:1.5px solid var(--primary);padding-bottom:2px;"><span class="__cf_email__" data-cfemail="066f686069466d73626772746770636a75286a6d">[email&#160;protected]</span> →</a>
+      </div>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <div class="faq-q">
+            How far in advance should I book my tour?
+            <span class="faq-icon"><svg viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="faq-a">We recommend booking at least 2–3 days in advance for day tours and 1–2 weeks ahead for multi-day trips, especially during peak seasons. That said, we often accommodate last-minute bookings — just get in touch and we'll do our best.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">
+            Do you provide airport pick-up and drop-off?
+            <span class="faq-icon"><svg viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="faq-a">Yes! We offer airport transfers to and from Bandaranaike International Airport (CMB) and all regional airports in Sri Lanka. Our drivers will meet you at arrivals with a name board, assist with luggage, and get you to your destination comfortably.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">
+            Can I customise my itinerary?
+            <span class="faq-icon"><svg viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="faq-a">Absolutely. Every Kuda tour is built around what you want — your preferred destinations, pace, cuisine interests, and budget. We'll draft an itinerary, you review it, and we refine until it's perfect. There's no off-the-shelf package here.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">
+            What vehicles do you have?
+            <span class="faq-icon"><svg viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="faq-a">Our fleet includes air-conditioned sedans (up to 3 passengers), SUVs (up to 5), luxury minivans (up to 8), and coaches for larger groups (up to 30+). All vehicles are well-maintained and driver-operated.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">
+            How do payments work?
+            <span class="faq-icon"><svg viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="faq-a">We typically require a small advance payment to confirm your booking, with the balance due at the start or end of your tour. We accept bank transfers, online payments, and cash. Full details will be confirmed when you book.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">
+            What if my plans change?
+            <span class="faq-icon"><svg viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke-linecap="round"/></svg></span>
+          </div>
+          <div class="faq-a">Life happens — we get it. Our team is available 24/7 to help adjust your itinerary, change dates, or handle any unexpected situations. We pride ourselves on being flexible and responsive for our travellers.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <img src="uploads/kuda-logo.png" alt="Kuda Travel & Tours"/>
+      <p>Sri Lanka's trusted travel & tour partner — expert drivers, custom itineraries, and seamless journeys island-wide.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#offer">Day Tours</a></li>
+        <li><a href="#offer">Multi-Day Tours</a></li>
+        <li><a href="#offer">Airport Transfers</a></li>
+        <li><a href="#offer">City Excursions</a></li>
+        <li><a href="#offer">Group Travel</a></li>
+        <li><a href="#offer">Vehicle Hire</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#who">About Us</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+94771234567">+94 77 123 4567</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#375e595158775c42535643455641525b44195b5c"><span class="__cf_email__" data-cfemail="ddb4b3bbb29db6a8b9bca9afbcabb8b1aef3b1b6">[email&#160;protected]</span></a></li>
+        <li><a href="#">WhatsApp Us</a></li>
+        <li><a href="#">Colombo, Sri Lanka</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Kuda Travel & Tours. All rights reserved.</p>
+    <p>Web Solution by <a href="#" style="color:rgba(255,255,255,0.85);text-decoration:none;font-weight:600;">Enrol Solutions</a> &nbsp;·&nbsp; Design by <a href="#" style="color:rgba(255,255,255,0.85);text-decoration:none;font-weight:600;">ShshaThink</a></p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  /* ── SCROLL REVEAL ── */
+  const revealEls = document.querySelectorAll(
+    '.section-header, .who-grid, .offer-card, .step, .stat-card, .tcard, .cta-text, .cta-visual, .faq-item, .footer-top, .trust-inner, .how-split'
+  );
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('revealed');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => { el.classList.add('reveal'); revealObs.observe(el); });
+
+  /* Staggered cards */
+  document.querySelectorAll('.offer-card').forEach((c, i) => c.style.transitionDelay = `${i * 70}ms`);
+  document.querySelectorAll('.step').forEach((s, i) => s.style.transitionDelay = `${i * 90}ms`);
+  document.querySelectorAll('.stat-card').forEach((s, i) => s.style.transitionDelay = `${i * 80}ms`);
+  document.querySelectorAll('.tcard').forEach((c, i) => c.style.transitionDelay = `${i * 60}ms`);
+  document.querySelectorAll('.faq-item').forEach((f, i) => f.style.transitionDelay = `${i * 50}ms`);
+
+  /* ── COUNTER ANIMATION ── */
+  function animateCount(el, target, suffix) {
+    const duration = 1600;
+    const start = performance.now();
+    const isDecimal = target % 1 !== 0;
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const val = isDecimal ? (ease * target).toFixed(1) : Math.floor(ease * target);
+      el.textContent = val + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+  const statsObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('.stat-num').forEach(el => {
+          const raw = el.textContent;
+          const num = parseFloat(raw.replace(/[^0-9.]/g, ''));
+          const suffix = raw.replace(/[0-9.]/g, '');
+          animateCount(el, num, suffix);
+        });
+        statsObs.disconnect();
+      }
+    });
+  }, { threshold: 0.4 });
+  const statsSection = document.getElementById('stats');
+  if (statsSection) statsObs.observe(statsSection);
+
+  /* ── ACTIVE NAV ON SCROLL ── */
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const activeObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => {
+          a.classList.toggle('nav-active', a.getAttribute('href') === '#' + e.target.id);
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(s => activeObs.observe(s));
+
+  /* ── SCROLL TO TOP ── */
+  const topBtn = document.getElementById('scroll-top');
+  if (topBtn) {
+    window.addEventListener('scroll', () => {
+      topBtn.classList.toggle('visible', window.scrollY > 500);
+    });
+    topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+
+  /* ── TOUR TABS ── */
+  document.querySelectorAll('.tour-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tour;
+      document.querySelectorAll('.tour-tab').forEach(t => t.classList.toggle('active', t === tab));
+      document.querySelectorAll('.tour-panel').forEach(p => {
+        p.classList.toggle('active', p.dataset.panel === target);
+      });
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Testimonials scroll
+  const scroll = document.getElementById('tscroll');
+  const tnext = document.getElementById('tnext');
+  const tprev = document.getElementById('tprev');
+  if (scroll && tnext) tnext.addEventListener('click', () => scroll.scrollBy({ left: 340, behavior: 'smooth' }));
+  if (scroll && tprev) tprev.addEventListener('click', () => scroll.scrollBy({ left: -340, behavior: 'smooth' }));
+
+  // CTA button
+  function handleCTA(btn) {
+    btn.textContent = 'Enquiry Sent! We\'ll be in touch soon ✓';
+    btn.style.background = '#2d2b2c';
+    btn.disabled = true;
+  }
+
+  // Nav shadow on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.boxShadow = window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.07)' : '';
+  });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+</script>
+
+
+<!-- WhatsApp FAB -->
+<a href="https://wa.me/94771234567" target="_blank" rel="noopener" class="whatsapp-fab" aria-label="Chat on WhatsApp">
+  <span class="whatsapp-tooltip">Chat with us</span>
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 2C8.27 2 2 8.27 2 16c0 2.44.66 4.73 1.8 6.72L2 30l7.52-1.76A13.94 13.94 0 0016 30c7.73 0 14-6.27 14-14S23.73 2 16 2zm0 25.5a11.46 11.46 0 01-5.84-1.6l-.42-.25-4.34 1.02.98-4.26-.27-.44A11.46 11.46 0 014.5 16C4.5 9.6 9.6 4.5 16 4.5S27.5 9.6 27.5 16 22.4 27.5 16 27.5zm6.28-8.57c-.34-.17-2.02-1-2.34-1.1-.32-.12-.55-.17-.78.17-.23.34-.9 1.1-1.1 1.33-.2.23-.4.26-.74.09-.34-.17-1.44-.53-2.74-1.69-1.01-.9-1.7-2.02-1.9-2.36-.2-.34-.02-.52.15-.69.15-.15.34-.4.51-.6.17-.2.23-.34.34-.57.11-.23.06-.43-.03-.6-.09-.17-.78-1.88-1.07-2.57-.28-.68-.57-.58-.78-.59h-.66c-.23 0-.6.09-.91.43-.31.34-1.19 1.16-1.19 2.84s1.22 3.3 1.39 3.53c.17.23 2.4 3.67 5.82 5.14.81.35 1.44.56 1.94.72.81.26 1.55.22 2.14.13.65-.1 2.02-.83 2.3-1.62.29-.8.29-1.48.2-1.62-.08-.14-.31-.23-.65-.4z"/>
+  </svg>
+</a>
+
+<!-- Scroll to top -->
+<button id="scroll-top" aria-label="Scroll to top">
+  <svg viewBox="0 0 18 18" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 14V4M4 9l5-5 5 5"/>
+  </svg>
+</button>
+
+</body>
+</html>

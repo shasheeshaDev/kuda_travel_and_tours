@@ -164,6 +164,7 @@ export default defineType({
         { type: "how-it-works" },
         { type: "stats-1" },
         { type: "testimonials-kuda" },
+        { type: "tours-1" },
         { type: "cta-form" },
         { type: "faq-1" },
       ],
@@ -172,7 +173,7 @@ export default defineType({
           groups: [
             {
               name: "kuda",
-              of: ["hero-kuda", "trust-strip", "who-we-are", "services-grid", "how-it-works", "stats-1", "testimonials-kuda", "cta-form", "faq-1"],
+              of: ["hero-kuda", "trust-strip", "who-we-are", "services-grid", "how-it-works", "stats-1", "testimonials-kuda", "tours-1", "cta-form", "faq-1"],
             },
           ],
           views: [

@@ -7,7 +7,9 @@ export const client = createClient({
   dataset,
   apiVersion,
   useCdn,
-  perspective: "published",
+  // "previewDrafts" shows the latest content (draft if available, published otherwise).
+  // Use "published" in production to never expose unpublished content.
+  perspective: process.env.NEXT_PUBLIC_SITE_ENV === "production" ? "published" : "previewDrafts",
   stega: {
     studioUrl: process.env.NEXT_PUBLIC_STUDIO_URL,
     filter: (props) => {
