@@ -10,11 +10,11 @@ export default async function Footer2() {
   // Use footer's own logo first; fall back to the header logo from settings
   const footerLogoUrl =
     (footer as any)?.footerLogo?.asset?.url ??
-    settings?.logo?.asset?.url ??
+    settings?.siteLogo?.asset?.url ??
     null;
   const footerLogoAlt =
     (footer as any)?.footerLogo?.alt ??
-    settings?.logo?.alt ??
+    settings?.siteLogo?.alt ??
     settings?.siteName ??
     "Kuda Travel & Tours";
 

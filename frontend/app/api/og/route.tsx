@@ -66,10 +66,10 @@ export async function GET(request: Request) {
           }}
         >
           {/* Logo */}
-          {settings?.logo && settings.logo.asset?.url && (
+          {settings?.siteLogo && settings.siteLogo.asset?.url && (
             <img
-              src={settings.logo.asset.url}
-              alt={settings.logo.alt || ""}
+              src={settings.siteLogo.asset.url}
+              alt={settings.siteLogo.alt || ""}
               width={300}
               height={42}
               style={{ marginBottom: 48 }}

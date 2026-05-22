@@ -8,7 +8,7 @@ export default defineType({
   icon: Settings,
   fields: [
     defineField({
-      name: "logo",
+      name: "siteLogo",
       type: "image",
       title: "Site Logo",
       description: "Header logo. Recommended height: 32 px. Upload SVG or PNG with transparent background.",
@@ -56,7 +56,7 @@ export default defineType({
   preview: {
     select: {
       title: "siteName",
-      media: "logo",
+      media: "siteLogo",
     },
     prepare({ title, media }) {
       return {

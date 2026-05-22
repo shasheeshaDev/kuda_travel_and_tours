@@ -1,4 +1,5 @@
 import { buttonQuery } from "../shared/button";
+import { bodyQuery } from "../shared/body";
 
 export const tours1Query = `
   _type == "tours-1" => {
@@ -15,6 +16,9 @@ export const tours1Query = `
         emoji,
         title,
         meta,
+        content[]{
+          ${bodyQuery}
+        },
       },
     },
     ctaButton {

@@ -84,6 +84,12 @@ export default defineType({
                       title: "Meta",
                       description: "Short descriptor — duration and theme (e.g. 1 day · Capital highlights)",
                     }),
+                    defineField({
+                      name: "content",
+                      type: "block-content",
+                      title: "Popup Content",
+                      description: "Rich text shown in the popup when this tour card is clicked.",
+                    }),
                   ],
                   preview: {
                     select: { title: "title", subtitle: "meta", media: "emoji" },
