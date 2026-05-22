@@ -4,15 +4,24 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+export interface BookingFormConfig {
+  toEmail?:    string | null;
+  ccEmails?:   string[] | null;
+  bccEmails?:  string[] | null;
+  fromName?:   string | null;
+  formSubject?: string | null;
+}
+
 export interface BookingInput {
   tourName: string;
   tourMeta: string;
-  name: string;
-  email: string;
-  phone: string;
+  name:     string;
+  email:    string;
+  phone:    string;
   dateFrom: string;
-  dateTo: string;
-  note: string;
+  dateTo:   string;
+  note:     string;
+  config?:  BookingFormConfig | null;
 }
 
 export interface BookingResult {
@@ -134,18 +143,27 @@ export async function submitTourBooking(data: BookingInput): Promise<BookingResu
     return { success: false, error: "Sender email is not configured." };
   }
 
-  // Business receives bookings — use RESEND_TO_EMAIL if set, otherwise fall back to fromEmail
-  const toEmail = process.env.RESEND_TO_EMAIL || fromEmail;
-
   const reference = generateRef();
+
+  // Priority: formConfig.toEmail → RESEND_TO_EMAIL env → fromEmail (fallback)
+  const cfg        = data.config;
+  const toEmail    = cfg?.toEmail   || process.env.RESEND_TO_EMAIL || fromEmail;
+  const senderName = cfg?.fromName  || "Kuda Travel & Tours";
+  const subject    = cfg?.formSubject
+    ? `${cfg.formSubject} — ${data.tourName} [${reference}]`
+    : `New Booking — ${data.tourName} [${reference}]`;
+  const cc  = (cfg?.ccEmails  ?? []).filter(Boolean) as string[];
+  const bcc = (cfg?.bccEmails ?? []).filter(Boolean) as string[];
 
   try {
     // 1 — notify business
     await resend.emails.send({
-      from: `Kuda Travel & Tours <${fromEmail}>`,
+      from: `${senderName} <${fromEmail}>`,
       to: toEmail,
+      ...(cc.length  && { cc }),
+      ...(bcc.length && { bcc }),
       replyTo: data.email,
-      subject: `New Booking — ${data.tourName} [${reference}]`,
+      subject,
       html: businessEmailHtml(data, reference),
     });
 

@@ -24,5 +24,12 @@ export const tours1Query = `
     ctaButton {
       ${buttonQuery}
     },
+    bookingFormConfig->{
+      toEmail,
+      ccEmails,
+      bccEmails,
+      fromName,
+      formSubject,
+    },
   }
 `;

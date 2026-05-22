@@ -39,7 +39,7 @@ function resolveHref(button: any): string {
   return button.href || "#";
 }
 
-export default function Tours1({ eyebrow, heading, description, tabs, ctaButton }: Tours1Props) {
+export default function Tours1({ eyebrow, heading, description, tabs, ctaButton, bookingFormConfig }: Tours1Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [openTour, setOpenTour]       = useState<TourItem | null>(null);
   const [view, setView]               = useState<DialogView>("detail");
@@ -74,6 +74,7 @@ export default function Tours1({ eyebrow, heading, description, tabs, ctaButton 
       dateFrom: fd.get("dateFrom") as string,
       dateTo:   fd.get("dateTo")   as string,
       note:     fd.get("note")     as string,
+      config:   bookingFormConfig ?? null,
     });
     setIsSubmitting(false);
     if (result.success) {

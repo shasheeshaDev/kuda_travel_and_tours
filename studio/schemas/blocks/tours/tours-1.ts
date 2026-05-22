@@ -120,6 +120,14 @@ export default defineType({
       title: "CTA Button",
       group: "content",
     }),
+    defineField({
+      name: "bookingFormConfig",
+      type: "reference",
+      title: "Booking Form Config",
+      description: "Controls the email recipient, CC, BCC, subject and sender name for tour booking requests. Create one under Forms → Form Configurations.",
+      to: [{ type: "formConfig" }],
+      group: "block-settings",
+    }),
   ],
   preview: {
     select: { title: "heading" },
