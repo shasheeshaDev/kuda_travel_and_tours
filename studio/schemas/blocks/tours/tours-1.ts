@@ -85,6 +85,12 @@ export default defineType({
                       description: "Short descriptor — duration and theme (e.g. 1 day · Capital highlights)",
                     }),
                     defineField({
+                      name: "route",
+                      type: "string",
+                      title: "Route",
+                      description: "Journey route — separate stops with →  (e.g. Colombo → Galle → Colombo)",
+                    }),
+                    defineField({
                       name: "content",
                       type: "block-content",
                       title: "Popup Content",

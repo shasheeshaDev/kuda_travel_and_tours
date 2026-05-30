@@ -16,6 +16,7 @@ export const tours1Query = `
         emoji,
         title,
         meta,
+        route,
         content[]{
           ${bodyQuery}
         },

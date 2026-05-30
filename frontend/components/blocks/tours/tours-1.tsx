@@ -32,6 +32,28 @@ const INPUT = [
   "focus:border-brand-primary transition-colors duration-200",
 ].join(" ");
 
+function TourRoute({ route }: { route: string }) {
+  const stops = route.split(/\s*→\s*|\s*->\s*/).map((s) => s.trim()).filter(Boolean);
+  if (stops.length === 0) return null;
+  return (
+    <div className="mb-6 p-4 bg-brand-cream rounded-[10px] border border-brand-border">
+      <p className="text-[11px] font-semibold tracking-[0.1em] uppercase text-brand-muted mb-3">Route</p>
+      <div className="flex flex-wrap items-center gap-y-2 gap-x-0">
+        {stops.map((stop, i) => (
+          <span key={i} className="flex items-center">
+            <span className="px-2.5 py-1 rounded-md bg-white border border-brand-border text-[13px] font-medium text-brand-secondary whitespace-nowrap">
+              {stop}
+            </span>
+            {i < stops.length - 1 && (
+              <span className="mx-1.5 text-brand-muted text-[13px] select-none">→</span>
+            )}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function resolveHref(button: any): string {
   if (!button) return "#";
   if (button.isExternal && button.href) return button.href;
@@ -235,6 +257,10 @@ export default function Tours1({ eyebrow, heading, description, tabs, ctaButton,
                 [&_ol]:pl-5 [&_ol]:mb-4
                 [&_strong]:text-brand-secondary [&_strong]:font-semibold
                 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-border [&_blockquote]:pl-4 [&_blockquote]:italic">
+
+                {/* Route */}
+                {openTour.route && <TourRoute route={openTour.route} />}
+
                 {openTour.content && openTour.content.length > 0
                   ? <PortableTextRenderer value={openTour.content as any} />
                   : <p className="text-[15px] text-brand-muted">No details available for this tour yet.</p>
